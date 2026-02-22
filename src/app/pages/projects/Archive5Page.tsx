@@ -7,5 +7,5 @@ export default function Archive5Page() {
     return <MissingDetailPage label="archive-5" />;
   }
 
-  return <ProjectDetailLayout cards={project.page.cards} />;
+  return <ProjectDetailLayout projectSlug="archive-5" cards={project.page.cards} />;
 }

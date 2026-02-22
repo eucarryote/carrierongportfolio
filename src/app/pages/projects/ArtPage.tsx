@@ -7,5 +7,5 @@ export default function ArtPage() {
     return <MissingDetailPage label="art" />;
   }
 
-  return <ProjectDetailLayout cards={project.page.cards} />;
+  return <ProjectDetailLayout projectSlug="art" cards={project.page.cards} />;
 }

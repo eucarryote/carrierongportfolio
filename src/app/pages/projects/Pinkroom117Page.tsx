@@ -7,5 +7,5 @@ export default function Pinkroom117Page() {
     return <MissingDetailPage label="pinkroom-117" />;
   }
 
-  return <ProjectDetailLayout cards={project.page.cards} />;
+  return <ProjectDetailLayout projectSlug="pinkroom-117" cards={project.page.cards} />;
 }

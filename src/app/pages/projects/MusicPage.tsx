@@ -7,5 +7,5 @@ export default function MusicPage() {
     return <MissingDetailPage label="music" />;
   }
 
-  return <ProjectDetailLayout cards={project.page.cards} />;
+  return <ProjectDetailLayout projectSlug="music" cards={project.page.cards} />;
 }

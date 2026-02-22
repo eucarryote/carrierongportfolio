@@ -7,5 +7,5 @@ export default function FragmeisterPage() {
     return <MissingDetailPage label="fragmeister" />;
   }
 
-  return <ProjectDetailLayout cards={project.page.cards} />;
+  return <ProjectDetailLayout projectSlug="fragmeister" cards={project.page.cards} />;
 }

@@ -253,10 +253,10 @@ export const databaseItems: DatabaseItem[] = [
   { collection: "projects", slug: "nuro", title: "Nuro", description: "Neurotechnology Interface", imageSrc: "/images/previews/projects/nuro-hero.webp", imageAlt: "Nuro preview", linkLabel: "Open project page" },
   { collection: "otherProjects", slug: "writing", title: "Writing", description: "Bear Blog, Substack, Pinkroom, Fragmeister" },
   { collection: "otherProjects", slug: "community", title: "Community", description: "Picnic Club, Design Collective" },
-  { collection: "otherProjects", slug: "art", title: "Art", description: "instagram.com/eucarryart", href: "https://instagram.com/eucarryart" },
-  { collection: "otherProjects", slug: "music", title: "Music", description: "rothkappchen.bandcamp.com", href: "https://rothkappchen.bandcamp.com" },
-  { collection: "writing", slug: "bear-blog", title: "Bear Blog", description: "carrie.bearblog.dev", href: "https://carrie.bearblog.dev/blog", linkLabel: "Open project page" },
-  { collection: "writing", slug: "substack", title: "Substack", description: "lookingthroughtime.substack.com", href: "https://lookingthroughtime.substack.com", linkLabel: "Open project page" },
+  { collection: "otherProjects", slug: "art", title: "Art", description: "instagram.com/eucarryart" },
+  { collection: "otherProjects", slug: "music", title: "Music", description: "rothkappchen.bandcamp.com" },
+  { collection: "writing", slug: "bear-blog", title: "Bear Blog", description: "carrie.bearblog.dev", linkLabel: "Open project page" },
+  { collection: "writing", slug: "substack", title: "Substack", description: "lookingthroughtime.substack.com", linkLabel: "Open project page" },
   { collection: "writing", slug: "pinkroom-117", title: "From the Pinkroom", description: "IDE Newsletter", linkLabel: "Open project page" },
   { collection: "writing", slug: "fragmeister", title: "Fragmeister", description: "Design writing journal", imageHref: "https://fragmeister.com/who-are-we-before-design", linkLabel: "Open project page" },
 ];
@@ -298,6 +298,12 @@ export function getGridCollection(key: string): GridCollection | undefined {
   return gridCollections[key];
 }
 
+export function getProjectHeroBySlug(slug: string): { imageSrc: string; imageAlt?: string } | undefined {
+  const item = databaseItems.find((entry) => entry.slug === slug && entry.imageSrc);
+  if (!item?.imageSrc) return undefined;
+  return { imageSrc: item.imageSrc, imageAlt: item.imageAlt };
+}
+
 export const otherProjectPages: OtherProjectPage[] = [
   {
     slug: "playgrounds",
@@ -312,6 +318,36 @@ export const otherProjectPages: OtherProjectPage[] = [
           body: "Project breakdown and context for Playgrounds.",
           imageSrc: "/images/project-pages/projects/playgrounds/01.jpg",
           imageAlt: "Playgrounds image",
+        },
+        {
+          id: "process",
+          title: "Process",
+          body: "Summarize how this project developed over time.",
+        },
+        {
+          id: "outcome",
+          title: "Outcome",
+          body: "Describe outcomes, reflections, and key learnings.",
+        },
+        {
+          id: "links",
+          title: "Links",
+          body: "Add links to demos, repos, or references.",
+        },
+      ],
+    },
+  },
+  {
+    slug: "plastic",
+    title: "To All The Plastic I've Loved Before",
+    page: {
+      headerLeft: "To All The Plastic I've Loved Before",
+      headerRight: "Project",
+      cards: [
+        {
+          id: "overview",
+          title: "Overview",
+          body: "Project breakdown and context for To All The Plastic I've Loved Before.",
         },
         {
           id: "process",
@@ -634,4 +670,38 @@ export const otherProjectPages: OtherProjectPage[] = [
 
 export function getOtherProjectBySlug(slug: string): OtherProjectPage | undefined {
   return otherProjectPages.find((project) => project.slug === slug);
+}
+
+export function getProjectPageBySlug(slug: string): OtherProjectPage | undefined {
+  const existing = getOtherProjectBySlug(slug);
+  if (existing) return existing;
+
+  const item = databaseItems.find((entry) => entry.collection === "projects" && entry.slug === slug);
+  if (!item) return undefined;
+
+  return {
+    slug: item.slug,
+    title: item.title,
+    page: {
+      headerLeft: item.title,
+      headerRight: "Project",
+      cards: [
+        {
+          id: "overview",
+          title: "Overview",
+          body: item.description || `Project overview for ${item.title}.`,
+        },
+        {
+          id: "process",
+          title: "Process",
+          body: "Add process notes, key decisions, and development milestones.",
+        },
+        {
+          id: "outcome",
+          title: "Outcome",
+          body: "Add final outcomes, impact, and reflections.",
+        },
+      ],
+    },
+  };
 }

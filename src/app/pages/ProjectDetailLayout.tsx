@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import ProjectTemplate, { TemplateNavItem } from "@/app/components/ProjectTemplate";
-import type { TemplateCard } from "@/content/projects";
+import { getProjectHeroBySlug, type TemplateCard } from "@/content/projects";
 
 function buildSectionNav(cards: TemplateCard[]): TemplateNavItem[] {
   return cards.map((card) => ({
@@ -39,9 +39,38 @@ function ProjectSectionLink({ card }: { card: TemplateCard }) {
   return null;
 }
 
-export default function ProjectDetailLayout({ cards }: { cards: TemplateCard[] }) {
+export default function ProjectDetailLayout({
+  cards,
+  projectSlug,
+}: {
+  cards: TemplateCard[];
+  projectSlug?: string;
+}) {
+  const hero = projectSlug ? getProjectHeroBySlug(projectSlug) : undefined;
+  const firstCardImage = cards[0]?.imageSrc;
+  const shouldRenderHero = Boolean(hero?.imageSrc) && hero?.imageSrc !== firstCardImage;
+  const projectImageWidth = "calc((100% - 24px) / 2)";
+
   const breakdownContent = (
-    <div style={{ maxWidth: "min(90%, 80ch)" }}>
+    <div style={{ width: "100%" }}>
+      {shouldRenderHero ? (
+        <img
+          src={hero?.imageSrc}
+          alt={hero?.imageAlt ?? `${projectSlug} hero image`}
+          loading="lazy"
+          onError={(event) => {
+            event.currentTarget.style.display = "none";
+          }}
+          style={{
+            width: projectImageWidth,
+            aspectRatio: "4 / 3",
+            objectFit: "cover",
+            display: "block",
+            borderRadius: "4px",
+            marginBottom: "1.5rem",
+          }}
+        />
+      ) : null}
       {cards.map((card) => (
         <article id={card.id} key={card.id} style={{ marginBottom: "2.5rem" }}>
           {card.imageSrc ? (
@@ -49,8 +78,11 @@ export default function ProjectDetailLayout({ cards }: { cards: TemplateCard[] }
               src={card.imageSrc}
               alt={card.imageAlt ?? card.title}
               loading="lazy"
+              onError={(event) => {
+                event.currentTarget.style.display = "none";
+              }}
               style={{
-                width: "100%",
+                width: projectImageWidth,
                 aspectRatio: "4 / 3",
                 objectFit: "cover",
                 display: "block",
@@ -59,7 +91,17 @@ export default function ProjectDetailLayout({ cards }: { cards: TemplateCard[] }
               }}
             />
           ) : null}
-          <h3 style={{ fontSize: "24px", marginBottom: "0.5rem", lineHeight: 1.2 }}>{card.title}</h3>
+          <h3
+            style={{
+              fontFamily: '"Rand Bold Trial", system-ui, -apple-system, sans-serif',
+              fontSize: "24px",
+              fontWeight: 700,
+              marginBottom: "0.5rem",
+              lineHeight: 1.2,
+            }}
+          >
+            {card.title}
+          </h3>
           <p style={{ fontFamily: "Times New Roman, serif", fontSize: "24px", lineHeight: 1.35 }}>{card.body}</p>
           <div style={{ fontFamily: "Times New Roman, serif", fontSize: "24px", marginTop: "0.35rem" }}>
             <ProjectSectionLink card={card} />

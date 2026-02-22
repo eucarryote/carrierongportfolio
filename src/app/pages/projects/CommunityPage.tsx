@@ -7,5 +7,5 @@ export default function CommunityPage() {
     return <MissingDetailPage label="community" />;
   }
 
-  return <ProjectDetailLayout cards={project.page.cards} />;
+  return <ProjectDetailLayout projectSlug="community" cards={project.page.cards} />;
 }

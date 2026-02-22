@@ -65,9 +65,17 @@ function TemplateStyles() {
   return (
     <style>{`
       @font-face {
-        font-family: "Rand Trial";
+        font-family: "Rand Medium Trial";
         src: url("/fonts/Rand-Medium-Trial.otf") format("opentype");
         font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "Rand Bold Trial";
+        src: url("/fonts/Rand-Bold-Trial.otf") format("opentype");
+        font-weight: 700;
         font-style: normal;
         font-display: swap;
       }
@@ -80,7 +88,7 @@ function TemplateStyles() {
 
       body, html {
         min-height: 100%;
-        font-family: "Rand Trial", system-ui, -apple-system, sans-serif;
+        font-family: "Rand Medium Trial", system-ui, -apple-system, sans-serif;
         background: white;
         color: #382202;
         overflow-x: hidden;
@@ -122,8 +130,9 @@ function TemplateStyles() {
       }
 
       .top-left h1 {
+        font-family: "Rand Bold Trial", system-ui, -apple-system, sans-serif;
         font-size: var(--layout-site-title-size);
-        font-weight: bold;
+        font-weight: 700;
         letter-spacing: -0.5px;
         line-height: 1;
       }
@@ -145,8 +154,9 @@ function TemplateStyles() {
       }
 
       .top-right h2 {
+        font-family: "Rand Bold Trial", system-ui, -apple-system, sans-serif;
         font-size: var(--layout-section-title-size);
-        font-weight: bold;
+        font-weight: 700;
         letter-spacing: -0.5px;
       }
 
@@ -168,8 +178,9 @@ function TemplateStyles() {
       }
 
       .bottom-left nav a {
+        font-family: "Rand Bold Trial", system-ui, -apple-system, sans-serif;
         font-size: var(--layout-nav-size);
-        font-weight: bold;
+        font-weight: 700;
         text-decoration: none;
         color: #382202;
         letter-spacing: -0.5px;
@@ -231,8 +242,9 @@ function TemplateStyles() {
 
       .grid-item h3,
       .grid-item-title {
+        font-family: "Rand Bold Trial", system-ui, -apple-system, sans-serif;
         font-size: 24px;
-        font-weight: bold;
+        font-weight: 700;
         letter-spacing: -0.4px;
         margin-top: 2px;
         margin-bottom: 0;

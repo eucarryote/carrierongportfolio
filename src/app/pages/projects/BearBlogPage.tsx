@@ -7,5 +7,5 @@ export default function BearBlogPage() {
     return <MissingDetailPage label="bear-blog" />;
   }
 
-  return <ProjectDetailLayout cards={project.page.cards} />;
+  return <ProjectDetailLayout projectSlug="bear-blog" cards={project.page.cards} />;
 }

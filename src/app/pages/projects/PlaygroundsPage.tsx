@@ -7,5 +7,5 @@ export default function PlaygroundsPage() {
     return <MissingDetailPage label="playgrounds" />;
   }
 
-  return <ProjectDetailLayout cards={project.page.cards} />;
+  return <ProjectDetailLayout projectSlug="playgrounds" cards={project.page.cards} />;
 }

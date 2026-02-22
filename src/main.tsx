@@ -22,7 +22,9 @@ import FragmeisterPage from "./app/pages/projects/FragmeisterPage.tsx";
 import MusicPage from "./app/pages/projects/MusicPage.tsx";
 import Pinkroom111Page from "./app/pages/projects/Pinkroom111Page.tsx";
 import Pinkroom117Page from "./app/pages/projects/Pinkroom117Page.tsx";
+import PlasticPage from "./app/pages/projects/PlasticPage.tsx";
 import PlaygroundsPage from "./app/pages/projects/PlaygroundsPage.tsx";
+import ProjectSlugPage from "./app/pages/projects/ProjectSlugPage.tsx";
 import SubstackPage from "./app/pages/projects/SubstackPage.tsx";
 
 createRoot(document.getElementById("root")!).render(
@@ -33,6 +35,8 @@ createRoot(document.getElementById("root")!).render(
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/projects" element={<ProjectsPage />} />
       <Route path="/projects/playgrounds" element={<PlaygroundsPage />} />
+      <Route path="/projects/plastic" element={<PlasticPage />} />
+      <Route path="/projects/:slug" element={<ProjectSlugPage />} />
       <Route path="/projects/archive-1" element={<Archive1Page />} />
       <Route path="/projects/archive-2" element={<Archive2Page />} />
       <Route path="/projects/archive-3" element={<Archive3Page />} />

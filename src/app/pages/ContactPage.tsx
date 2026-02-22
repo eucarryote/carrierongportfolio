@@ -38,7 +38,7 @@ export default function ContactPage() {
             <div key={`contact-section-${index}`} style={{ marginBottom: "1rem" }}>
               <h3
                 style={{
-                  fontFamily: '"Rand Trial", system-ui, -apple-system, sans-serif',
+                  fontFamily: '"Rand Bold Trial", system-ui, -apple-system, sans-serif',
                   fontSize: "32px",
                   fontWeight: 700,
                   lineHeight: 1.2,

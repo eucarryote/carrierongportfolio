@@ -7,5 +7,5 @@ export default function SubstackPage() {
     return <MissingDetailPage label="substack" />;
   }
 
-  return <ProjectDetailLayout cards={project.page.cards} />;
+  return <ProjectDetailLayout projectSlug="substack" cards={project.page.cards} />;
 }
