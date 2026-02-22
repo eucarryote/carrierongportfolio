@@ -345,6 +345,7 @@ function TemplateStyles() {
 
         .bottom-right-text {
           max-width: 100%;
+          font-size: 18px;
         }
       }
     `}</style>
