@@ -6,7 +6,7 @@ const homeCards = getGridCollection("projects")?.cards ?? [];
 export default function App() {
   return (
     <ProjectTemplate
-      siteTitle="Carrie Rong Portfolio"
+      siteTitle="Carrie Rong"
       headerLeft="About"
       headerLeftTo="/about"
       headerRight="CV"

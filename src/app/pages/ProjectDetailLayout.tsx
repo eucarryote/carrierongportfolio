@@ -71,7 +71,7 @@ export default function ProjectDetailLayout({ cards }: { cards: TemplateCard[] }
 
   return (
     <ProjectTemplate
-      siteTitle="Carrie Rong Portfolio"
+      siteTitle="Carrie Rong"
       headerLeft="About"
       headerLeftTo="/about"
       headerRight="CV"

@@ -66,7 +66,7 @@ function TemplateStyles() {
     <style>{`
       @font-face {
         font-family: "Rand Trial";
-        src: url("/fonts/rand-trial-regular.woff2") format("woff2");
+        src: url("/fonts/Rand-Medium-Trial.otf") format("opentype");
         font-weight: 400;
         font-style: normal;
         font-display: swap;
@@ -74,7 +74,7 @@ function TemplateStyles() {
 
       @font-face {
         font-family: "Rand Trial";
-        src: url("/fonts/rand-trial-bold.woff2") format("woff2");
+        src: url("/fonts/Rand-Medium-Trial.otf") format("opentype");
         font-weight: 700;
         font-style: normal;
         font-display: swap;

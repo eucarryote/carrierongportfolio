@@ -7,7 +7,7 @@ export default function AboutPage() {
 
   return (
     <ProjectTemplate
-      siteTitle="Carrie Rong Portfolio"
+      siteTitle="Carrie Rong"
       headerLeft="About"
       headerLeftTo="/about"
       headerRight="CV"
