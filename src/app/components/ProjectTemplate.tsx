@@ -72,14 +72,6 @@ function TemplateStyles() {
         font-display: swap;
       }
 
-      @font-face {
-        font-family: "Rand Trial";
-        src: url("/fonts/Rand-Medium-Trial.otf") format("opentype");
-        font-weight: 700;
-        font-style: normal;
-        font-display: swap;
-      }
-
       * {
         margin: 0;
         padding: 0;
