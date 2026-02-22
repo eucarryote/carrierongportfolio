@@ -131,7 +131,7 @@ function TemplateStyles() {
 
       .top-left h1 {
         font-family: "Rand Bold Trial", system-ui, -apple-system, sans-serif;
-        font-size: var(--layout-site-title-size);
+        font-size: var(--layout-section-title-size);
         font-weight: 700;
         letter-spacing: -0.5px;
         line-height: 1;
@@ -306,6 +306,10 @@ function TemplateStyles() {
           font-size: var(--layout-section-title-size-mobile);
         }
 
+        .top-left h1 {
+          font-size: var(--layout-section-title-size-mobile);
+        }
+
         .top-right .header {
           flex-direction: column;
           align-items: flex-start;
@@ -327,6 +331,16 @@ function TemplateStyles() {
 
         .grid-item-image {
           aspect-ratio: 4 / 3;
+        }
+
+        .grid-item h3,
+        .grid-item-title {
+          font-size: 18px;
+        }
+
+        .grid-item p,
+        .grid-item a {
+          font-size: 18px;
         }
 
         .bottom-right-text {
