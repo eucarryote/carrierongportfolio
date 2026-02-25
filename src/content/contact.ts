@@ -1,4 +1,4 @@
-export const contactBodyText = `I would love to hear from you! No really!
+export const contactBodyText = `
 
 Email
 carrierong37@gmail.com

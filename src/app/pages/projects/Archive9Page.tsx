@@ -1,4 +1,4 @@
-import ProjectDetailLayout, { MissingDetailPage } from "@/app/pages/ProjectDetailLayout";
+import ProjectLayout, { MissingDetailPage } from "@/app/pages/ProjectLayout";
 import { getOtherProjectBySlug } from "@/content/projects";
 
 export default function Archive9Page() {
@@ -7,5 +7,5 @@ export default function Archive9Page() {
     return <MissingDetailPage label="archive-9" />;
   }
 
-  return <ProjectDetailLayout projectSlug="archive-9" cards={project.page.cards} />;
+  return <ProjectLayout projectSlug="archive-9" cards={project.page.cards} />;
 }

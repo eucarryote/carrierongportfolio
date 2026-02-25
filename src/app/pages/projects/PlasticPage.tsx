@@ -1,4 +1,4 @@
-import ProjectDetailLayout, { MissingDetailPage } from "@/app/pages/ProjectDetailLayout";
+import ProjectLayout, { MissingDetailPage } from "@/app/pages/ProjectLayout";
 import { getOtherProjectBySlug } from "@/content/projects";
 
 export default function PlasticPage() {
@@ -7,5 +7,5 @@ export default function PlasticPage() {
     return <MissingDetailPage label="plastic" />;
   }
 
-  return <ProjectDetailLayout projectSlug="plastic" cards={project.page.cards} />;
+  return <ProjectLayout projectSlug="plastic" cards={project.page.cards} />;
 }

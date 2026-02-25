@@ -1,11 +1,11 @@
-import ProjectTemplate from "@/app/components/ProjectTemplate";
+import PageTemplate from "@/app/components/PageTemplate";
 import { getGridCollection } from "@/content/projects";
 
 const homeCards = getGridCollection("projects")?.cards ?? [];
 
 export default function App() {
   return (
-    <ProjectTemplate
+    <PageTemplate
       siteTitle="Carrie Rong"
       headerLeft="About"
       headerLeftTo="/about"

@@ -1,4 +1,4 @@
-import ProjectTemplate from "@/app/components/ProjectTemplate";
+import PageTemplate from "@/app/components/PageTemplate";
 import { contactBodyText } from "@/content/contact";
 
 export default function ContactPage() {
@@ -10,8 +10,7 @@ export default function ContactPage() {
   }
 
   const blocks = contactBodyText.split("\n\n").filter(Boolean);
-  const intro = blocks[0] ?? "";
-  const sections = blocks.slice(1).map((section) => {
+  const sections = blocks.map((section) => {
     const [heading, ...rest] = section.split("\n");
     return {
       heading,
@@ -20,7 +19,7 @@ export default function ContactPage() {
   });
 
   return (
-    <ProjectTemplate
+    <PageTemplate
       siteTitle="Carrie Rong"
       headerLeft="About"
       headerLeftTo="/about"
@@ -32,14 +31,13 @@ export default function ContactPage() {
       ]}
       cards={[]}
       bottomRightContent={
-        <div className="bottom-right-text">
-          {intro ? <p style={{ marginBottom: "1rem" }}>{intro}</p> : null}
+        <div className="bottom-right-text" style={{ fontSize: "var(--font-size-copyright)" }}>
           {sections.map((section, index) => (
             <div key={`contact-section-${index}`} style={{ marginBottom: "1rem" }}>
               <h3
                 style={{
                   fontFamily: '"Rand Bold Trial", system-ui, -apple-system, sans-serif',
-                  fontSize: "32px",
+                  fontSize: "24px",
                   fontWeight: 700,
                   lineHeight: 1.2,
                   marginBottom: "0.25rem",

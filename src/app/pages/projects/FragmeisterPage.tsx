@@ -1,4 +1,4 @@
-import ProjectDetailLayout, { MissingDetailPage } from "@/app/pages/ProjectDetailLayout";
+import ProjectLayout, { MissingDetailPage } from "@/app/pages/ProjectLayout";
 import { getProjectBySlug } from "@/content/projects";
 
 export default function FragmeisterPage() {
@@ -7,5 +7,5 @@ export default function FragmeisterPage() {
     return <MissingDetailPage label="fragmeister" />;
   }
 
-  return <ProjectDetailLayout projectSlug="fragmeister" cards={project.page.cards} />;
+  return <ProjectLayout projectSlug="fragmeister" cards={project.page.cards} />;
 }

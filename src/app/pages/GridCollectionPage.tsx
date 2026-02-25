@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import ProjectTemplate, { TemplateNavItem } from "@/app/components/ProjectTemplate";
+import PageTemplate, { TemplateNavItem } from "@/app/components/PageTemplate";
 import { getGridCollection } from "@/content/projects";
 
 function buildNavItems(_collectionKey: string): TemplateNavItem[] {
@@ -32,14 +32,14 @@ function GridCollectionPage({
   }
 
   return (
-    <ProjectTemplate
+    <PageTemplate
       siteTitle="Carrie Rong"
       headerLeft="About"
       headerLeftTo="/about"
       headerRight="CV"
       navItems={buildNavItems(collectionKey)}
       cards={collection.cards}
-      cardsColumnsDesktop={collectionKey === "writing" ? 3 : 2}
+      cardsColumnsDesktop={2}
     />
   );
 }

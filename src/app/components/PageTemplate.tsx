@@ -10,7 +10,7 @@ export type TemplateNavItem = {
   to?: string;
 };
 
-type ProjectTemplateProps = {
+type PageTemplateProps = {
   siteTitle: string;
   headerLeft: string;
   headerLeftTo?: string;
@@ -64,22 +64,6 @@ function DefaultCardImage({ card }: { card: TemplateCard }) {
 function TemplateStyles() {
   return (
     <style>{`
-      @font-face {
-        font-family: "Rand Medium Trial";
-        src: url("/fonts/Rand-Medium-Trial.otf") format("opentype");
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-      }
-
-      @font-face {
-        font-family: "Rand Bold Trial";
-        src: url("/fonts/Rand-Bold-Trial.otf") format("opentype");
-        font-weight: 700;
-        font-style: normal;
-        font-display: swap;
-      }
-
       * {
         margin: 0;
         padding: 0;
@@ -100,33 +84,48 @@ function TemplateStyles() {
         --layout-top-row-height: 100px;
         --layout-panel-padding-y: 12px;
         --layout-panel-padding-x: 20px;
+        --layout-edge-padding: 20px;
         --layout-header-gap: 12px;
         --layout-cards-gap: 24px;
         --layout-cards-gap-mobile: 20px;
         --layout-site-title-size: 32px;
         --layout-section-title-size: 32px;
-        --layout-section-title-size-mobile: 24px;
+        --layout-section-title-size-mobile: 30px;
         --layout-nav-size: 32px;
-        --layout-nav-size-mobile: 24px;
+        --layout-nav-size-mobile: var(--layout-section-title-size-mobile);
         --layout-nav-gap: 0;
+        --font-size-h2: var(--layout-section-title-size);
+        --font-size-grid-title: 24px;
+        --font-size-grid-copy: var(--font-size-grid-title);
+        --font-size-prose: 32px;
+        --font-size-copyright: 24px;
       }
 
       .page-grid {
         min-height: 100vh;
         display: grid;
         grid-template-columns: var(--layout-left-column-width) minmax(0, 1fr);
-        grid-template-rows: var(--layout-top-row-height) minmax(0, 1fr);
+        grid-template-rows: var(--layout-top-row-height) auto;
         grid-template-areas:
           "top-left top-right"
           "bottom-left bottom-right";
       }
 
       .grid-panel {
-        padding: var(--layout-panel-padding-y) var(--layout-panel-padding-x);
+        padding-top: var(--layout-panel-padding-y);
+        padding-bottom: var(--layout-panel-padding-y);
       }
 
       .top-left {
         grid-area: top-left;
+        padding-left: var(--layout-edge-padding);
+        padding-right: var(--layout-panel-padding-x);
+        padding-top: var(--layout-panel-padding-y);
+        padding-bottom: 0;
+        position: sticky;
+        top: 0;
+        align-self: start;
+        z-index: 3;
       }
 
       .top-left h1 {
@@ -144,6 +143,10 @@ function TemplateStyles() {
 
       .top-right {
         grid-area: top-right;
+        padding-left: var(--layout-panel-padding-x);
+        padding-right: var(--layout-edge-padding);
+        padding-top: var(--layout-panel-padding-y);
+        padding-bottom: 0;
       }
 
       .top-right .header {
@@ -155,42 +158,45 @@ function TemplateStyles() {
 
       .top-right h2 {
         font-family: "Rand Bold Trial", system-ui, -apple-system, sans-serif;
-        font-size: var(--layout-section-title-size);
+        font-size: var(--font-size-h2);
         font-weight: 700;
         letter-spacing: -0.5px;
-      }
-
-      .top-right .header a {
-        color: inherit;
-        text-decoration: none;
       }
 
       .bottom-left {
         grid-area: bottom-left;
         padding-top: 0;
+        padding-left: var(--layout-edge-padding);
+        padding-right: var(--layout-edge-padding);
+        position: sticky;
+        top: var(--layout-top-row-height);
+        align-self: start;
+        height: max-content;
       }
 
       .bottom-left nav {
         display: flex;
         flex-direction: column;
         gap: var(--layout-nav-gap);
-        margin-top: 2px;
+        margin-top: 0;
       }
 
-      .bottom-left nav a {
+      .nav-link {
         font-family: "Rand Bold Trial", system-ui, -apple-system, sans-serif;
         font-size: var(--layout-nav-size);
         font-weight: 700;
         text-decoration: none;
         color: #382202;
         letter-spacing: -0.5px;
-        line-height: 1.3;
+        line-height: 1.2;
       }
 
       .bottom-right {
         grid-area: bottom-right;
         padding-top: 0;
         padding-bottom: 0;
+        padding-left: var(--layout-panel-padding-x);
+        padding-right: var(--layout-edge-padding);
         display: flex;
         flex-direction: column;
       }
@@ -203,7 +209,7 @@ function TemplateStyles() {
         margin-top: 80px;
         margin-bottom: 12px;
         font-family: "Times New Roman", serif;
-        font-size: 24px;
+        font-size: var(--font-size-copyright);
         line-height: 1.2;
         text-align: left;
       }
@@ -243,7 +249,7 @@ function TemplateStyles() {
       .grid-item h3,
       .grid-item-title {
         font-family: "Rand Bold Trial", system-ui, -apple-system, sans-serif;
-        font-size: 24px;
+        font-size: var(--font-size-grid-title);
         font-weight: 700;
         letter-spacing: -0.4px;
         margin-top: 2px;
@@ -267,7 +273,7 @@ function TemplateStyles() {
 
       .grid-item p,
       .grid-item a {
-        font-size: 24px;
+        font-size: var(--font-size-grid-copy);
         font-family: 'Times New Roman', serif;
         line-height: 1.3;
         overflow-wrap: anywhere;
@@ -280,15 +286,34 @@ function TemplateStyles() {
 
       .bottom-right-text {
         font-family: "Times New Roman", serif;
-        font-size: 32px;
+        font-size: var(--font-size-prose);
         line-height: 1.35;
         white-space: pre-wrap;
         overflow-wrap: anywhere;
-        max-width: min(50%, 70ch);
+        max-width: min(60%, 70ch);
       }
 
       .bottom-right-text a {
         color: #382202;
+      }
+
+      @media (max-width: 1024px) {
+        :root {
+          --layout-left-column-width: 270px;
+          --layout-edge-padding: 12px;
+          --layout-section-title-size: 30px;
+          --layout-nav-size: 30px;
+          --layout-cards-gap: 18px;
+          --font-size-h2: var(--layout-section-title-size);
+          --font-size-grid-title: 20px;
+          --font-size-prose: 30px;
+        }
+
+        .top-left,
+        .bottom-left {
+          padding-right: 0;
+        }
+
       }
 
       @media (max-width: ${MOBILE_BREAKPOINT_PX}px) {
@@ -303,7 +328,7 @@ function TemplateStyles() {
         }
 
         .top-right h2 {
-          font-size: var(--layout-section-title-size-mobile);
+          font-size: var(--font-size-h2);
         }
 
         .top-left h1 {
@@ -317,42 +342,85 @@ function TemplateStyles() {
         }
 
         .top-right {
-          padding-bottom: 0;
+          padding-bottom: 0px;
         }
 
-        .bottom-left nav a {
+        .top-left,
+        .top-right,
+        .bottom-left,
+        .bottom-right {
+          padding-left: var(--layout-edge-padding);
+          padding-right: var(--layout-edge-padding);
+        }
+
+        .bottom-left {
+          position: static;
+          top: auto;
+          height: auto;
+        }
+
+        .top-left {
+          position: static;
+          top: auto;
+        }
+
+        .nav-link {
           font-size: var(--layout-nav-size-mobile);
         }
 
         .cards-grid {
           grid-template-columns: 1fr;
-          row-gap: 28px;
+          row-gap: 30px;
         }
 
         .grid-item-image {
           aspect-ratio: 4 / 3;
         }
 
-        .grid-item h3,
-        .grid-item-title {
-          font-size: 18px;
-        }
-
-        .grid-item p,
-        .grid-item a {
-          font-size: 18px;
+        :root {
+          --font-size-h2: var(--layout-section-title-size-mobile);
+          --font-size-grid-title: 18px;
+          --font-size-prose: 18px;
         }
 
         .bottom-right-text {
           max-width: 100%;
-          font-size: 18px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        :root {
+          --font-size-grid-title: 20px;
+          --font-size-prose: 24px;
+        }
+
+        .top-left {
+          padding-bottom: 40px;
+        }
+
+        .bottom-left {
+          padding-bottom: 20px;
+        }
+      }
+
+      @media (max-width: 425px) {
+        :root {
+          --layout-section-title-size-mobile: 30px;
+          --font-size-h2: 20px;
+          --font-size-grid-title: 20px;
+          --font-size-prose: 20px;
+          --font-size-copyright: 20px;
+        }
+
+        .top-left {
+          padding-bottom: 20px;
         }
       }
     `}</style>
   );
 }
 
-export default function ProjectTemplate({
+export default function PageTemplate({
   siteTitle,
   headerLeft,
   headerLeftTo,
@@ -363,7 +431,7 @@ export default function ProjectTemplate({
   cardsColumnsDesktop = 2,
   bottomRightContent,
   renderImage,
-}: ProjectTemplateProps) {
+}: PageTemplateProps) {
   return (
     <>
       <TemplateStyles />
@@ -377,15 +445,17 @@ export default function ProjectTemplate({
         <section className="grid-panel top-right">
           <div className="header">
             {headerLeftTo ? (
-              <h2>
-                <Link to={headerLeftTo}>{headerLeft}</Link>
+              <h2 className="top-right-title-about">
+                <Link to={headerLeftTo} className="nav-link top-right-link-about">
+                  {headerLeft}
+                </Link>
               </h2>
             ) : (
-              <h2>{headerLeft}</h2>
+              <h2 className="top-right-title-about">{headerLeft}</h2>
             )}
-            <h2>
+            <h2 className="top-right-title-cv">
               {headerRightHref ? (
-                <a href={headerRightHref} target="_blank" rel="noreferrer">
+                <a href={headerRightHref} target="_blank" rel="noreferrer" className="nav-link top-right-link-cv">
                   {headerRight}
                 </a>
               ) : (
@@ -399,11 +469,11 @@ export default function ProjectTemplate({
           <nav>
             {navItems.map((item) => (
               item.to ? (
-                <Link key={item.to} to={item.to}>
+                <Link key={item.to} to={item.to} className="nav-link">
                   {item.label}
                 </Link>
               ) : (
-                <a key={item.href ?? item.label} href={item.href ?? "#"}>
+                <a key={item.href ?? item.label} href={item.href ?? "#"} className="nav-link">
                   {item.label}
                 </a>
               )

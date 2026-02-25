@@ -1,4 +1,4 @@
-import ProjectDetailLayout, { MissingDetailPage } from "@/app/pages/ProjectDetailLayout";
+import ProjectLayout, { MissingDetailPage } from "@/app/pages/ProjectLayout";
 import { getOtherProjectBySlug } from "@/content/projects";
 
 export default function CommunityPage() {
@@ -7,5 +7,5 @@ export default function CommunityPage() {
     return <MissingDetailPage label="community" />;
   }
 
-  return <ProjectDetailLayout projectSlug="community" cards={project.page.cards} />;
+  return <ProjectLayout projectSlug="community" cards={project.page.cards} />;
 }

@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import ProjectDetailLayout, { MissingDetailPage } from "@/app/pages/ProjectDetailLayout";
+import ProjectLayout, { MissingDetailPage } from "@/app/pages/ProjectLayout";
 import { getProjectPageBySlug } from "@/content/projects";
 
 export default function ProjectSlugPage() {
@@ -13,5 +13,5 @@ export default function ProjectSlugPage() {
     return <MissingDetailPage label={slug} />;
   }
 
-  return <ProjectDetailLayout projectSlug={slug} cards={project.page.cards} />;
+  return <ProjectLayout projectSlug={slug} cards={project.page.cards} />;
 }

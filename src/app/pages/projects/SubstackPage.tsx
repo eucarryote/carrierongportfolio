@@ -1,4 +1,4 @@
-import ProjectDetailLayout, { MissingDetailPage } from "@/app/pages/ProjectDetailLayout";
+import ProjectLayout, { MissingDetailPage } from "@/app/pages/ProjectLayout";
 import { getProjectBySlug } from "@/content/projects";
 
 export default function SubstackPage() {
@@ -7,5 +7,5 @@ export default function SubstackPage() {
     return <MissingDetailPage label="substack" />;
   }
 
-  return <ProjectDetailLayout projectSlug="substack" cards={project.page.cards} />;
+  return <ProjectLayout projectSlug="substack" cards={project.page.cards} />;
 }
