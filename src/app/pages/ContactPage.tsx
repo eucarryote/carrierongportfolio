@@ -20,31 +20,12 @@ export default function ContactPage() {
 
   return (
     <PageTemplate
-      siteTitle="Carrie Rong"
-      headerLeft="About"
-      headerLeftTo="/about"
-      headerRight="CV"
-      navItems={[
-        { label: "Projects", to: "/projects" },
-        { label: "Other Projects", to: "/other-projects" },
-        { label: "Contact", to: "/contact" },
-      ]}
       cards={[]}
       bottomRightContent={
-        <div className="bottom-right-text" style={{ fontSize: "var(--font-size-copyright)" }}>
+        <div className="bottom-right-text compact-text">
           {sections.map((section, index) => (
-            <div key={`contact-section-${index}`} style={{ marginBottom: "1rem" }}>
-              <h3
-                style={{
-                  fontFamily: '"Rand Bold Trial", system-ui, -apple-system, sans-serif',
-                  fontSize: "24px",
-                  fontWeight: 700,
-                  lineHeight: 1.2,
-                  marginBottom: "0.25rem",
-                }}
-              >
-                {section.heading}
-              </h3>
+            <div className="contact-section" key={`contact-section-${index}`}>
+              <h3 className="contact-heading">{section.heading}</h3>
               {section.body.split("\n").map((line, lineIndex) => {
                 const href = toHref(line.trim());
                 return (

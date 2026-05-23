@@ -1,14 +1,7 @@
 import { Link } from "react-router";
-import PageTemplate, { TemplateNavItem } from "@/app/components/PageTemplate";
+import PageTemplate from "@/app/components/PageTemplate";
 import { getGridCollection } from "@/content/projects";
-
-function buildNavItems(_collectionKey: string): TemplateNavItem[] {
-  return [
-    { label: "Projects", to: "/projects" },
-    { label: "Other Projects", to: "/other-projects" },
-    { label: "Contact", to: "/contact" },
-  ];
-}
+import { routes } from "@/content/site";
 
 function GridCollectionPage({
   collectionKey,
@@ -19,29 +12,19 @@ function GridCollectionPage({
 
   if (!collection) {
     return (
-      <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
+      <div className="missing-page">
         <h1>Collection not found</h1>
         <p>
           Missing collection: <code>{collectionKey}</code>
         </p>
         <p>
-          <Link to="/">Back to home</Link>
+          <Link to={routes.home}>Back to home</Link>
         </p>
       </div>
     );
   }
 
-  return (
-    <PageTemplate
-      siteTitle="Carrie Rong"
-      headerLeft="About"
-      headerLeftTo="/about"
-      headerRight="CV"
-      navItems={buildNavItems(collectionKey)}
-      cards={collection.cards}
-      cardsColumnsDesktop={2}
-    />
-  );
+  return <PageTemplate cards={collection.cards} cardsColumnsDesktop={2} />;
 }
 
 export function ProjectsPage() {

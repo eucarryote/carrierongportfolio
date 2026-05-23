@@ -1,41 +1,19 @@
 import { Link } from "react-router";
 import PageTemplate from "@/app/components/PageTemplate";
 import { aboutBodyText } from "@/content/about";
+import { routes } from "@/content/site";
 
 export default function AboutPage() {
   const paragraphs = aboutBodyText.split("\n\n").filter(Boolean);
 
   return (
     <PageTemplate
-      siteTitle="Carrie Rong"
-      headerLeft="About"
-      headerLeftTo="/about"
-      headerRight="CV"
-      navItems={[
-        { label: "Projects", to: "/projects" },
-        { label: "Other Projects", to: "/other-projects" },
-        { label: "Contact", to: "/contact" },
-      ]}
       cards={[]}
       bottomRightContent={
-        <div className="bottom-right-text" style={{ fontSize: "var(--font-size-copyright)" }}>
-          <style>{`
-            .about-image {
-              width: 100%;
-              max-width: 460px;
-              height: auto;
-              display: block;
-            }
-
-            @media (max-width: 1024px) {
-              .about-image {
-                max-width: 100%;
-              }
-            }
-          `}</style>
-          <div style={{ marginBottom: "80px" }}>
+        <div className="bottom-right-text compact-text about-content">
+          <div>
             {paragraphs.map((paragraph, index) => (
-              <p key={`about-paragraph-${index}`} style={{ marginBottom: "1rem" }}>
+              <p className="content-paragraph" key={`about-paragraph-${index}`}>
                 {paragraph}
               </p>
             ))}
@@ -45,16 +23,16 @@ export default function AboutPage() {
             src="/images/about.webp"
             alt="Carrie Rong"
             loading="lazy"
-            style={{
-              marginBottom: "80px",
-            }}
             onError={(event) => {
               event.currentTarget.style.display = "none";
             }}
           />
           <p>
-            <Link to="/">Back</Link>
+            <Link to={routes.home}>Back</Link>
           </p>
+          <div className="about-site-credit">
+            <p>This site was made by one person with help from many computers (LLMs).</p>
+          </div>
         </div>
       }
     />

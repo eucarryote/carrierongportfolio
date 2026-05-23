@@ -1,27 +1,17 @@
-import { Link } from "react-router";
 import { useEffect, useState } from "react";
-import PageTemplate, { TemplateNavItem } from "@/app/components/PageTemplate";
-import { getNextProjectBySlug, getProjectBySlug, getProjectHeroBySlug, getProjectPageBySlug, type TemplateCard } from "@/content/projects";
-
-const defaultPageNav: TemplateNavItem[] = [
-  { label: "Projects", to: "/projects" },
-  { label: "Other Projects", to: "/other-projects" },
-  { label: "Contact", to: "/contact" },
-];
-
-export function MissingDetailPage({ label }: { label: string }) {
-  return (
-    <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
-      <h1>Project not found</h1>
-      <p>
-        Missing page config: <code>{label}</code>
-      </p>
-      <p>
-        <Link to="/">Back to home</Link>
-      </p>
-    </div>
-  );
-}
+import { Link } from "react-router";
+import PageTemplate from "@/app/components/PageTemplate";
+import { routes } from "@/content/site";
+import {
+  getCardColourBySlug,
+  getNextProjectBySlug,
+  getProjectBackPathBySlug,
+  getProjectHeroBySlug,
+  getProjectPageBySlug,
+  getProjectPathBySlug,
+  type ProjectContentBlock,
+  type TemplateCard,
+} from "@/content/projects";
 
 type SectionImage = {
   key: string;
@@ -29,15 +19,32 @@ type SectionImage = {
   alt: string;
 };
 
+export function MissingDetailPage({ label }: { label: string }) {
+  return (
+    <div className="missing-page">
+      <h1>Project not found</h1>
+      <p>
+        Missing page config: <code>{label}</code>
+      </p>
+      <p>
+        <Link to={routes.home}>Back to home</Link>
+      </p>
+    </div>
+  );
+}
+
+function cardColourClass(cardColour?: string): string {
+  if (!cardColour) return "";
+  return `card-colour-${cardColour.replace("#", "").toLowerCase()}`;
+}
+
 function getCardImages(card?: TemplateCard, keyPrefix = "card"): SectionImage[] {
   const explicit = card?.images?.map((image, index) => ({
     key: `${keyPrefix}-explicit-${index}`,
     src: image.src,
     alt: image.alt ?? card.title,
   }));
-  if (explicit && explicit.length > 0) {
-    return explicit;
-  }
+  if (explicit && explicit.length > 0) return explicit;
 
   if (card?.imageSrc) {
     return [{ key: `${keyPrefix}-card-image`, src: card.imageSrc, alt: card.imageAlt ?? card.title }];
@@ -67,29 +74,123 @@ function getProcessImages(cards: TemplateCard[], processCard?: TemplateCard): Se
     }));
 }
 
-function renderCardBody(body: string) {
+function CardBody({ body }: { body: string }) {
   const paragraphs = body
     .split(/\n+/)
     .map((paragraph) => paragraph.trim())
     .filter(Boolean);
 
-  if (paragraphs.length === 0) {
-    return null;
-  }
-
   return paragraphs.map((paragraph, index) => (
-    <p
-      className="project-card-body"
-      key={`card-paragraph-${index}`}
-      style={{
-        fontFamily: "Times New Roman, serif",
-        lineHeight: 1.35,
-        marginBottom: index === paragraphs.length - 1 ? 0 : "0.75rem",
-      }}
-    >
+    <p className="project-card-body" key={`card-paragraph-${index}`}>
       {paragraph}
     </p>
   ));
+}
+
+function CardLink({ card }: { card?: TemplateCard }) {
+  if (!card?.href) return null;
+
+  return (
+    <p className="project-card-link">
+      <a href={card.href} target="_blank" rel="noreferrer">
+        {card.linkLabel ?? card.href}
+      </a>
+    </p>
+  );
+}
+
+function ProjectText({ text }: { text: string }) {
+  return text
+    .split(/\n+/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean)
+    .map((paragraph, index) => <p key={`project-block-paragraph-${index}`}>{paragraph}</p>);
+}
+
+function getProjectImageClass(variant: Extract<ProjectContentBlock, { type: "image" }>["variant"]): string {
+  if (variant === "two-thirds") return "project-image-block project-image-two-thirds";
+  if (variant === "indented") return "project-image-block project-image-indented";
+  return "project-image-block project-image-full";
+}
+
+function ProjectContentBlocks({
+  blocks,
+  onImageClick,
+}: {
+  blocks: ProjectContentBlock[];
+  onImageClick: (image: SectionImage) => void;
+}) {
+  return (
+    <div className="project-blocks">
+      {blocks.map((block) => {
+        if (block.type === "specs") {
+          return (
+            <div className="project-specs" id={block.id} key={block.id}>
+              {block.items.map((item) => (
+                <p key={item}>{item}</p>
+              ))}
+            </div>
+          );
+        }
+
+        if (block.type === "quote") {
+          return (
+            <div className="project-quote" id={block.id} key={block.id}>
+              <ProjectText text={block.text} />
+            </div>
+          );
+        }
+
+        if (block.type === "paragraph") {
+          return (
+            <div
+              className={`project-paragraph ${block.variant === "indented" ? "project-paragraph-indented" : "project-paragraph-default"}`}
+              id={block.id}
+              key={block.id}
+            >
+              <ProjectText text={block.body} />
+            </div>
+          );
+        }
+
+        if (block.type === "section-heading") {
+          return (
+            <div className="project-section-heading" id={block.id} key={block.id}>
+              {block.text}
+            </div>
+          );
+        }
+
+        const images = block.images ?? (block.src ? [{ src: block.src, alt: block.alt }] : []);
+        if (images.length === 0) return null;
+
+        return (
+          <div className={getProjectImageClass(block.variant)} id={block.id} key={block.id}>
+            {images.map((image, index) => {
+              const sectionImage = {
+                key: `${block.id}-${index}`,
+                src: image.src,
+                alt: image.alt ?? block.alt ?? "",
+              };
+
+              return (
+                <img
+                  key={sectionImage.key}
+                  src={sectionImage.src}
+                  alt={sectionImage.alt}
+                  loading="lazy"
+                  onClick={() => onImageClick(sectionImage)}
+                  onError={(event) => {
+                    event.currentTarget.hidden = true;
+                  }}
+                />
+              );
+            })}
+          </div>
+        );
+      })}
+    </div>
+  );
 }
 
 export default function ProjectLayout({
@@ -105,280 +206,128 @@ export default function ProjectLayout({
     if (!lightboxImage) return undefined;
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setLightboxImage(null);
-      }
+      if (event.key === "Escape") setLightboxImage(null);
     };
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [lightboxImage]);
 
+  const project = projectSlug ? getProjectPageBySlug(projectSlug) : undefined;
   const hero = projectSlug ? getProjectHeroBySlug(projectSlug) : undefined;
-  const heroSrc = hero?.imageSrc;
-  const heroAlt = hero?.imageAlt ?? (projectSlug ? `${projectSlug} hero image` : "Project hero image");
-  const projectTitle = projectSlug ? getProjectPageBySlug(projectSlug)?.title ?? getProjectBySlug(projectSlug)?.title : undefined;
   const nextProject = projectSlug ? getNextProjectBySlug(projectSlug) : undefined;
+  const nextPath = nextProject ? getProjectPathBySlug(nextProject.slug) : undefined;
+  const backPath = getProjectBackPathBySlug(projectSlug);
+  const cardColour = projectSlug ? getCardColourBySlug(projectSlug) : undefined;
+  const contentBlocks = project?.page?.blocks;
   const overviewCard = cards.find((card) => card.id === "overview") ?? cards[0];
   const processCard = cards.find((card) => card.id === "process") ?? cards.find((card) => card.id === "approach");
   const outcomeCard = cards.find((card) => card.id === "outcome");
   const processImages = getProcessImages(cards, processCard);
   const outcomeImages = getCardImages(outcomeCard, "outcome");
-  const processGridClass = getGalleryClass(processImages.length);
-  const outcomeGridClass = getGalleryClass(outcomeImages.length);
-  const overviewHasText = Boolean(overviewCard?.body?.trim());
-  const processHasText = Boolean(processCard?.body?.trim());
-  const outcomeHasText = Boolean(outcomeCard?.body?.trim());
-  const titleStyle = {
-    fontFamily: '"Rand Bold Trial", system-ui, -apple-system, sans-serif',
-    fontWeight: 700 as const,
-    lineHeight: 1.15,
-    margin: 0,
-  };
+  const overviewHasContent = Boolean(overviewCard?.body?.trim() || overviewCard?.href);
+  const processHasContent = Boolean(processCard?.body?.trim() || processCard?.href);
+  const outcomeHasContent = Boolean(outcomeCard?.body?.trim() || outcomeCard?.href);
+  const isLinkOnlyCard = (card?: TemplateCard) => Boolean(card?.href && !card?.body?.trim());
 
   const breakdownContent = (
-    <div className="project-layout" style={{ width: "100%" }}>
-      <style>{`
-        .project-layout {
-          --project-section-gap: 40px;
-        }
-
-        .project-media {
-          width: calc((100% - 24px) / 2);
-        }
-
-        .project-title-block {
-          padding-bottom: 12px;
-        }
-
-        .project-page-title {
-          font-size: var(--project-page-title-size, 32px);
-        }
-
-        .project-copy {
-          max-width: min(70%, 70ch);
-        }
-
-        .project-overview {
-          margin-top: var(--project-section-gap);
-          margin-bottom: var(--project-section-gap);
-        }
-
-        .project-section {
-          margin-bottom: var(--project-section-gap);
-        }
-
-        .project-card-title {
-          font-family: "Rand Bold Trial", system-ui, -apple-system, sans-serif;
-          font-size: var(--project-card-title-size, 24px);
-          font-weight: 700;
-          margin-bottom: 0.5rem;
-          line-height: 1.2;
-        }
-
-        .project-card-body,
-        .project-card-link {
-          font-size: var(--project-card-copy-size, 24px);
-        }
-
-        .project-pagination {
-          margin-top: var(--project-section-gap);
-          font-family: "Times New Roman", serif;
-          font-size: var(--font-size-copyright, 24px);
-          line-height: 1.2;
-          display: flex;
-          align-items: baseline;
-          justify-content: space-between;
-          gap: 1rem;
-        }
-
-        .project-pagination a {
-          color: #382202;
-        }
-
-        .section-gallery {
-          display: flex;
-          flex-direction: column;
-          gap: 24px;
-          margin-top: var(--project-section-gap);
-          width: 70%;
-        }
-
-        .section-gallery.count-1 {
-          width: calc(((100% - 24px) / 2) * 0.7);
-        }
-
-        .section-gallery-image {
-          width: 100%;
-          aspect-ratio: 4 / 3;
-          object-fit: cover;
-          display: block;
-          border-radius: 4px;
-          cursor: zoom-in;
-        }
-
-        .project-lightbox {
-          position: fixed;
-          inset: 0;
-          background: rgba(0, 0, 0, 0.82);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 24px;
-          z-index: 1000;
-        }
-
-        .project-lightbox img {
-          max-width: min(92vw, 1400px);
-          max-height: 90vh;
-          width: auto;
-          height: auto;
-          display: block;
-        }
-
-        @media (max-width: 1024px) {
-          .project-media.hero {
-            width: 100%;
-          }
-
-          .project-copy {
-            max-width: 70%;
-          }
-
-          .section-gallery {
-            width: 100%;
-          }
-        }
-
-        @media (max-width: 900px) {
-          .project-copy {
-            max-width: 100%;
-          }
-
-          .section-gallery.count-1 {
-            width: 70%;
-          }
-        }
-
-        @media (max-width: 768px) {
-          :root {
-            --project-page-title-size: 24px;
-          }
-
-          .project-layout {
-            --project-section-gap: 24px;
-          }
-
-          .project-page-title {
-            font-size: var(--project-page-title-size, 24px);
-          }
-        }
-
-        @media (max-width: 425px) {
-          :root {
-            --project-page-title-size: 20px;
-            --project-card-title-size: 20px;
-            --project-card-copy-size: 20px;
-          }
-
-          .project-layout {
-            --project-section-gap: 20px;
-          }
-
-          .project-pagination {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 0;
-          }
-
-          .section-gallery.count-1 {
-            width: 100%;
-          }
-        }
-      `}</style>
-      {heroSrc ? (
-        <img
-          className="project-media hero"
-          src={heroSrc}
-          alt={heroAlt}
-          loading="lazy"
-          onError={(event) => {
-            event.currentTarget.style.display = "none";
-          }}
-          style={{
-            aspectRatio: "4 / 3",
-            objectFit: "cover",
-            display: "block",
-            borderRadius: "4px",
-            marginBottom: "1.5rem",
-          }}
-        />
-      ) : null}
-      {projectTitle ? (
+    <div className="project-layout">
+      {project?.title ? (
         <div className="project-title-block">
-          <h2 className="project-page-title" style={titleStyle}>
-            {projectTitle}
-          </h2>
+          <h2 className="project-page-title">{project.title}</h2>
         </div>
       ) : null}
-      {overviewCard ? (
-        <section id="overview" className="project-overview">
-          {overviewHasText ? <h3 className="project-card-title">Concept</h3> : null}
-          <div className="project-copy">{renderCardBody(overviewCard.body)}</div>
-        </section>
+
+      {hero?.imageSrc ? (
+        <img
+          className="project-media hero"
+          src={hero.imageSrc}
+          alt={hero.imageAlt ?? `${projectSlug} hero image`}
+          loading="eager"
+          fetchPriority="high"
+          onError={(event) => {
+            event.currentTarget.hidden = true;
+          }}
+        />
+      ) : cardColour ? (
+        <div className={`project-media hero project-colour-block ${cardColourClass(cardColour)}`} aria-label={`${projectSlug} colour block`} />
       ) : null}
 
-      {processCard ? (
-        <section id="process" className="project-section">
-          {processHasText ? <h3 className="project-card-title">{processCard.title}</h3> : null}
-          <div className="project-copy">{renderCardBody(processCard.body)}</div>
-          {processImages.length > 0 ? (
-            <div className={processGridClass}>
-              {processImages.map((image) => (
-                <img
-                  key={image.key}
-                  className="section-gallery-image"
-                  src={image.src}
-                  alt={image.alt}
-                  loading="lazy"
-                  onClick={() => setLightboxImage(image)}
-                  onError={(event) => {
-                    event.currentTarget.style.display = "none";
-                  }}
-                />
-              ))}
-            </div>
+      {contentBlocks?.length ? (
+        <ProjectContentBlocks blocks={contentBlocks} onImageClick={setLightboxImage} />
+      ) : (
+        <>
+          {overviewCard ? (
+            <section id="overview" className={`project-overview ${isLinkOnlyCard(processCard) ? "compact" : ""}`}>
+              {overviewHasContent ? <h3 className="project-card-title">Concept</h3> : null}
+              <div className="project-copy">
+                <CardBody body={overviewCard.body} />
+              </div>
+              <CardLink card={overviewCard} />
+            </section>
           ) : null}
-        </section>
-      ) : null}
 
-      {outcomeCard ? (
-        <section id="outcome" className="project-section">
-          {outcomeHasText ? <h3 className="project-card-title">{outcomeCard.title}</h3> : null}
-          <div className="project-copy">{renderCardBody(outcomeCard.body)}</div>
-          {outcomeImages.length > 0 ? (
-            <div className={outcomeGridClass}>
-              {outcomeImages.map((image) => (
-                <img
-                  key={image.key}
-                  className="section-gallery-image"
-                  src={image.src}
-                  alt={image.alt}
-                  loading="lazy"
-                  onClick={() => setLightboxImage(image)}
-                  onError={(event) => {
-                    event.currentTarget.style.display = "none";
-                  }}
-                />
-              ))}
-            </div>
+          {processCard ? (
+            <section id="process" className={`project-section ${isLinkOnlyCard(processCard) ? "project-section-link-only" : ""}`}>
+              {processHasContent && processCard.title?.trim() ? <h3 className="project-card-title">{processCard.title}</h3> : null}
+              <div className="project-copy">
+                <CardBody body={processCard.body} />
+              </div>
+              <CardLink card={processCard} />
+              {processImages.length > 0 ? (
+                <div className={getGalleryClass(processImages.length)}>
+                  {processImages.map((image) => (
+                    <img
+                      key={image.key}
+                      className="section-gallery-image"
+                      src={image.src}
+                      alt={image.alt}
+                      loading="lazy"
+                      onClick={() => setLightboxImage(image)}
+                      onError={(event) => {
+                        event.currentTarget.hidden = true;
+                      }}
+                    />
+                  ))}
+                </div>
+              ) : null}
+            </section>
           ) : null}
-        </section>
-      ) : null}
+
+          {outcomeCard ? (
+            <section id="outcome" className={`project-section ${isLinkOnlyCard(outcomeCard) ? "project-section-link-only" : ""}`}>
+              {outcomeHasContent && outcomeCard.title?.trim() ? <h3 className="project-card-title">{outcomeCard.title}</h3> : null}
+              <div className="project-copy">
+                <CardBody body={outcomeCard.body} />
+              </div>
+              <CardLink card={outcomeCard} />
+              {outcomeImages.length > 0 ? (
+                <div className={getGalleryClass(outcomeImages.length)}>
+                  {outcomeImages.map((image) => (
+                    <img
+                      key={image.key}
+                      className="section-gallery-image"
+                      src={image.src}
+                      alt={image.alt}
+                      loading="lazy"
+                      onClick={() => setLightboxImage(image)}
+                      onError={(event) => {
+                        event.currentTarget.hidden = true;
+                      }}
+                    />
+                  ))}
+                </div>
+              ) : null}
+            </section>
+          ) : null}
+        </>
+      )}
+
       <div className="project-pagination">
-        <Link to="/projects">Back</Link>
-        {nextProject ? <Link to={`/projects/${nextProject.slug}`}>Next</Link> : <span />}
+        <Link to={backPath}>Back</Link>
+        {nextPath ? <Link to={nextPath}>Next</Link> : <span />}
       </div>
+
       {lightboxImage ? (
         <div className="project-lightbox" onClick={() => setLightboxImage(null)}>
           <img
@@ -395,11 +344,6 @@ export default function ProjectLayout({
 
   return (
     <PageTemplate
-      siteTitle="Carrie Rong"
-      headerLeft="About"
-      headerLeftTo="/about"
-      headerRight="CV"
-      navItems={defaultPageNav}
       cards={[]}
       bottomRightContent={breakdownContent}
     />
