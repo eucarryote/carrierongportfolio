@@ -4,7 +4,7 @@ import { aboutBodyText, aboutLinks } from "@/content/about";
 import { routes } from "@/content/site";
 
 function renderAboutText(paragraph: string) {
-  return paragraph.split(/\b(poetry|visual art|music|creativity|sharing|Edenspiekermann Berlin|Design Academy Eindhoven|Future Spaces Vision Lab|Innovation Design Engineering)\b/g).map((part) => {
+  return paragraph.split(/\b(poetry|writing|visual art|music|creativity|sharing|Edenspiekermann Berlin|Design Academy Eindhoven|Future Spaces Vision Lab|Innovation Design Engineering)\b/g).map((part) => {
     const href = aboutLinks[part];
     if (!href) return part;
 
