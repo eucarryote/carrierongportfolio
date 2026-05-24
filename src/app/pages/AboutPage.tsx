@@ -1,7 +1,20 @@
 import { Link } from "react-router";
 import PageTemplate from "@/app/components/PageTemplate";
-import { aboutBodyText } from "@/content/about";
+import { aboutBodyText, aboutLinks } from "@/content/about";
 import { routes } from "@/content/site";
+
+function renderAboutText(paragraph: string) {
+  return paragraph.split(/\b(poetry|visual art|music|creativity|sharing|Edenspiekermann Berlin|Design Academy Eindhoven|Future Spaces Vision Lab|Innovation Design Engineering)\b/g).map((part) => {
+    const href = aboutLinks[part];
+    if (!href) return part;
+
+    return (
+      <a href={href} target="_blank" rel="noreferrer" key={`${part}-${href}`}>
+        {part}
+      </a>
+    );
+  });
+}
 
 export default function AboutPage() {
   const paragraphs = aboutBodyText.split("\n\n").filter(Boolean);
@@ -14,7 +27,7 @@ export default function AboutPage() {
           <div>
             {paragraphs.map((paragraph, index) => (
               <p className="content-paragraph" key={`about-paragraph-${index}`}>
-                {paragraph}
+                {renderAboutText(paragraph)}
               </p>
             ))}
           </div>

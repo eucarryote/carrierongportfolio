@@ -12,6 +12,8 @@
   --layout-edge-padding: 20px;
   --layout-header-gap: 12px;
   --layout-cards-gap: 12px;
+  --content-section-gap: 60px;
+  --content-paragraph-gap: 1.5rem;
   --layout-section-title-size: 32px;
   --layout-section-title-size-mobile: 30px;
   --layout-nav-size: 32px;
@@ -23,7 +25,7 @@
   --font-size-small-times: 16px;
   --font-size-prose: 32px;
   --font-size-copyright: 24px;
-  --project-section-gap: 100px;
+  --project-section-gap: var(--content-section-gap);
   --project-page-title-size: 32px;
   --project-card-title-size: 24px;
   --project-card-copy-size: 24px;
@@ -296,13 +298,13 @@ a {
 .about-content {
   display: flex;
   flex-direction: column;
-  gap: 60px;
+  gap: var(--content-section-gap);
 }
 
 .about-image {
   display: block;
   width: 100%;
-  max-width: 460px;
+  max-width: 620px;
   height: auto;
 }
 
@@ -313,15 +315,37 @@ a {
   line-height: 1.2;
 }
 
-.content-paragraph,
-.contact-section {
-  margin-bottom: 1rem;
+.content-paragraph {
+  margin-bottom: var(--content-paragraph-gap);
+}
+
+.contact-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--content-paragraph-gap);
+  line-height: 1.5;
+}
+
+.contact-section + .contact-section {
+  margin-top: var(--content-section-gap);
+}
+
+.contact-title {
+  font-family: "Rand Bold Trial", system-ui, -apple-system, sans-serif;
+  font-size: var(--layout-section-title-size);
+  line-height: 1;
 }
 
 .contact-heading {
   margin-bottom: 0.25rem;
   font-size: 24px;
   line-height: 1.2;
+}
+
+.contact-social-links {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.35em;
 }
 
 .missing-page {
@@ -414,7 +438,7 @@ a {
 }
 
 .project-blocks > * + * {
-  margin-top: 60px;
+  margin-top: var(--content-section-gap);
 }
 
 .project-specs {
@@ -445,7 +469,7 @@ a {
 }
 
 .project-paragraph p + p {
-  margin-top: 1.5rem;
+  margin-top: var(--content-paragraph-gap);
 }
 
 .project-paragraph-default {
@@ -679,10 +703,6 @@ a {
 
   .bottom-left {
     padding-bottom: 20px;
-  }
-
-  .project-layout {
-    --project-section-gap: 60px;
   }
 }
 

@@ -5,7 +5,7 @@ export const routes = {
   projects: "/projects",
   experiments: "/experiments",
   writing: "/experiments/writing",
-  cv: "/cv/Carrie-Rong-CV.pdf",
+  cv: "/cv/Resume-Carrie-Rong.pdf",
 } as const;
 
 export const siteChrome = {
@@ -19,6 +19,5 @@ export const siteChrome = {
 
 export const mainNavItems = [
   { label: "Projects", to: routes.projects },
-  { label: "Experiments", to: routes.experiments },
   { label: "Contact", to: routes.contact },
 ] as const;
