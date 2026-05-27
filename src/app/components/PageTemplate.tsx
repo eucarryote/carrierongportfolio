@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { CSSProperties, ReactNode } from "react";
 import { Link } from "react-router";
 import type { TemplateCard } from "@/content/projects";
 import { mainNavItems, routes, siteChrome } from "@/content/site";
@@ -22,14 +22,14 @@ type PageTemplateProps = {
   renderImage?: (card: TemplateCard, index: number) => ReactNode;
 };
 
-function cardColourClass(cardColour?: string): string {
-  if (!cardColour) return "";
-  return `card-colour-${cardColour.replace("#", "").toLowerCase()}`;
-}
-
 function cardTextColourClass(cardTextColour?: "dark" | "light"): string {
   if (!cardTextColour) return "";
   return `card-text-colour-${cardTextColour}`;
+}
+
+function cardStyle(cardColour?: string): CSSProperties | undefined {
+  if (!cardColour) return undefined;
+  return { "--card-colour": cardColour } as CSSProperties;
 }
 
 function CardImage({ card, priority = false }: { card: TemplateCard; priority?: boolean }) {
@@ -95,7 +95,7 @@ function GridCard({
   renderImage?: (card: TemplateCard, index: number) => ReactNode;
 }) {
   return (
-    <section className={`grid-item ${cardColourClass(card.cardColour)} ${cardTextColourClass(card.cardTextColour)}`} id={card.id}>
+    <section className={`grid-item ${cardTextColourClass(card.cardTextColour)}`} id={card.id} style={cardStyle(card.cardColour)}>
       {renderImage ? renderImage(card, index) : <CardImage card={card} priority={index === 0} />}
       <div className="grid-item-hover-overlay" aria-hidden="true" />
       <div className="grid-item-content">

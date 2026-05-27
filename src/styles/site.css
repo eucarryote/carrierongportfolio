@@ -196,7 +196,7 @@ a {
 
 .grid-item:hover > .grid-item-hover-overlay {
   background: var(--card-colour);
-  opacity: 0.9;
+  opacity: 0.95;
 }
 
 .grid-item-content {
@@ -266,18 +266,6 @@ a {
   --card-hover-text-colour: #382202;
 }
 
-.card-colour-5b3982 {
-  --card-colour: #5b3982;
-}
-
-.card-colour-8c9dad {
-  --card-colour: #8c9dad;
-}
-
-.card-colour-ebe649 {
-  --card-colour: #ebe649;
-}
-
 .bottom-right-text {
   max-width: min(60%, 70ch);
   overflow-wrap: anywhere;
@@ -323,6 +311,7 @@ a {
   display: flex;
   flex-direction: column;
   gap: var(--content-paragraph-gap);
+  min-height: 100%;
   line-height: 1.5;
 }
 
@@ -346,6 +335,10 @@ a {
   display: inline-flex;
   flex-wrap: wrap;
   gap: 0.35em;
+}
+
+.contact-back {
+  margin-top: auto;
 }
 
 .missing-page {
@@ -438,7 +431,13 @@ a {
 }
 
 .project-blocks > * + * {
-  margin-top: var(--content-section-gap);
+  margin-top: 80px;
+}
+
+@media (min-width: 769px) {
+  .project-blocks > .project-section-heading {
+    margin-top: 120px;
+  }
 }
 
 .project-specs {
@@ -459,13 +458,23 @@ a {
 }
 
 .project-paragraph,
-.project-section-heading {
+.project-paragraph-heading {
   font-size: var(--project-card-copy-size);
   line-height: 1.2;
 }
 
-.project-paragraph {
+.project-paragraph,
+.project-section-heading {
   font-family: "Times New Roman", serif;
+}
+
+.project-paragraph-heading {
+  font-family: "Rand Bold Trial", system-ui, -apple-system, sans-serif;
+  font-weight: 700;
+}
+
+.project-paragraph-heading + .project-paragraph {
+  margin-top: var(--content-paragraph-gap);
 }
 
 .project-paragraph p + p {
@@ -482,7 +491,10 @@ a {
 }
 
 .project-section-heading {
-  font-family: "Rand Medium Trial", system-ui, -apple-system, sans-serif;
+  font-family: "Rand Bold Trial", system-ui, -apple-system, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.1;
 }
 
 .project-section-heading + .project-paragraph {
@@ -511,6 +523,10 @@ a {
 
 .project-image-two-thirds {
   width: 66.6667%;
+}
+
+.project-image-half {
+  width: 50%;
 }
 
 .project-image-indented {
@@ -732,12 +748,13 @@ a {
     padding-left: 0;
   }
 
-  .project-paragraph-default,
-  .project-paragraph-indented,
-  .project-image-two-thirds,
-  .project-image-indented {
-    width: 100%;
-  }
+.project-paragraph-default,
+.project-paragraph-indented,
+.project-image-two-thirds,
+.project-image-half,
+.project-image-indented {
+  width: 100%;
+}
 
   .project-image-block {
     gap: 4px;
@@ -747,6 +764,7 @@ a {
     margin-top: 48px;
   }
 
+  .project-paragraph-heading + .project-paragraph,
   .project-section-heading + .project-paragraph {
     margin-top: 20px;
   }

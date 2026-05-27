@@ -44,7 +44,7 @@ export default function AboutPage() {
             <Link to={routes.home}>Back</Link>
           </p>
           <div className="about-site-credit">
-            <p>This site was made by one person with help from many computers (LLMs).</p>
+            <p>This site was made by one person with help from many computers (LLM).</p>
           </div>
         </div>
       }

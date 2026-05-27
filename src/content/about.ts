@@ -2,7 +2,7 @@ export const aboutBodyText = `Carrie Rong (b. 1999) is a multidisciplinary desig
 
 Born in China and raised in Calgary, Alberta, she is the product of many stories and as such likes to tell them. She does this experimentally through poetry, writing, visual art, music, and building community centered around creativity and sharing.
 
-Previously she has worked at Edenspiekermann Berlin (2022), studied at Design Academy Eindhoven (2023), and contributed to research and exhibition work at the Future Spaces Vision Lab in Shenzhen (2025). She is currently pursuing a double Master’s in Innovation Design Engineering at the Royal College of Art and Imperial College London (grad 2027).`;
+Previously she has worked at Edenspiekermann Berlin (2022), studied at Design Academy Eindhoven (2023), and contributed to research and exhibition work at the Future Spaces Vision Lab in Shenzhen (2025). She is currently pursuing a double Master’s in Innovation Design Engineering at the Royal College of Art and Imperial College London (grad. 2027).`;
 
 export const aboutLinks: Record<string, string> = {
   poetry: "https://carrie.bearblog.dev",

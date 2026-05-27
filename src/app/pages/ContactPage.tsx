@@ -1,5 +1,7 @@
+import { Link } from "react-router";
 import PageTemplate from "@/app/components/PageTemplate";
 import { contactEmail, contactSocialLinks } from "@/content/contact";
+import { routes } from "@/content/site";
 
 export default function ContactPage() {
   return (
@@ -8,7 +10,7 @@ export default function ContactPage() {
       bottomRightContent={
         <div className="bottom-right-text compact-text contact-content">
           <div className="contact-section">
-            <p>Want to work together?</p>
+            <p>Something to tell me?</p>
             <p>
               Email{" "}
               <a href={`mailto:${contactEmail}`}>
@@ -32,6 +34,10 @@ export default function ContactPage() {
               </p>
             ))}
           </div>
+
+          <p className="contact-back">
+            <Link to={routes.home}>Back</Link>
+          </p>
         </div>
       }
     />

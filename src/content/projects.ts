@@ -37,30 +37,37 @@ export type ProjectPageContent = {
 
 export type ProjectContentBlock =
   | {
-      id: string;
+      id?: string;
       type: "specs";
       items: string[];
     }
   | {
-      id: string;
+      id?: string;
       type: "quote";
       text: string;
     }
   | {
-      id: string;
+      id?: string;
       type: "paragraph";
       variant?: "default" | "indented";
       body: string;
     }
   | {
-      id: string;
-      type: "section-heading";
+      id?: string;
+      type: "paragraph-heading";
+      variant?: "default" | "indented";
       text: string;
     }
   | {
-      id: string;
+      id?: string;
+      type: "section-heading";
+      variant?: "default" | "indented";
+      text: string;
+    }
+  | {
+      id?: string;
       type: "image";
-      variant?: "full" | "two-thirds" | "indented";
+      variant?: "full" | "two-thirds" | "half" | "indented";
       src?: string;
       alt?: string;
       images?: Array<{ src: string; alt?: string }>;
@@ -93,10 +100,90 @@ const paragraphs = (...items: string[]) =>
 const projectEntries: ProjectPage[] = [
   {
     collection: "projects",
+    slug: "enlève",
+    title: "Enleve",
+    description: "Product Engineering",
+    cardColour: "#EBE050",
+    cardTextColour: "dark",
+    imageSrc: "/images/previews/projects/enleve-hero.webp",
+    imageAlt: "Enleve preview",
+    linkLabel: "Open project page",
+    page: {
+      blocks: [
+        {
+          type: "specs",
+          items: ["2025", "2 months", "Solo project"],
+        },
+        {
+          type: "paragraph",
+          body: paragraphs(
+            "After surviving cancer, the journey to recovery is far from over. Rather, individuals must adjust to a ‘new normal’ after undergoing treatment, which often includes fatigue and muscle weakness as well as lasting side effects from toxic therapies.",
+            "One such symptom is damage to the peripheral nerves. In breast cancer survivors treated with chemotherapy, around 68% of patients experience a degree of peripheral neuropathy caused by chemotoxic agents. This is a debilitating symptom that significantly impacts one’s independence, movement, and confidence."
+          ),
+        },
+        {
+          type: "image",
+          variant: "two-thirds",
+          src: "/images/project-pages/projects/enleve/enleve-1.webp",
+          alt: "chemotherapy-induced peripheral neuropathy",
+        },
+        {
+          type: "paragraph-heading",
+          variant: "indented",
+          text: "Movement is medicine",
+        },
+        {
+          type: "paragraph",
+          variant: "indented",
+          body: "In the healthcare community, the benefits of movement and exercise for recovery and rehabilitation are well established. Beyond improving mobility, strength, and other physical functions, group exercise classes also create opportunities for socialization, emotional support, and encouragement among participants.",
+        },
+        {
+          type: "image",
+          variant: "indented",
+          src: "/images/project-pages/projects/enleve/enleve-2.webp",
+          alt: "Group exercise class for cancer recovery and rehabilitation",
+        },
+        {
+          type: "paragraph",
+          body: "However, through interviews with eight (8) participants in a ballet class for cancer survivors, I found that peripheral neuropathy could be severe enough to prevent them from attending class. Neuropathy’s debilitating effects of pain, numbness, tingling, and balance instability was interfering with their ability to enjoy the physical, emotional, and social benefits of movement and dance.",
+        },
+        {
+          type: "section-heading",
+          text: "Research",
+        },
+        {
+          type: "paragraph",
+          body: "Chemo-induced peripheral neuropathy (CIPN) is a dose-limiting symptom resulting from the administration of neurotoxic chemotherapy for the treatment of cancer. There are no standard therapies, cures, or non-pharmaceutical interventions, with a highly negative impact on patient quality of life.",
+        },
+        {
+          type: "image",
+          variant: "half",
+          src: "/images/project-pages/projects/enleve/enleve-3.webp",
+          alt: "Diagram showing effects of peripheral neuropathy on balance and sensation",
+        },
+        {
+          type: "quote",
+          text: "Could vibration be used as sensory augmentation for people experiencing chemo-induced peripheral neuropathy?",
+        },
+        {
+          type: "paragraph",
+          body: "In CIPN, sensory receptors responsible for light touch and pressure (Meissner corpuscles, Merkel disks, and Ruffini endings) are often most affected, leading to a loss of precise feedback from the feet. However, Pacinian corpuscles, located deeper in the subcutaneous layer and specialised for detecting vibration, are less affected.",
+        },
+        {
+          type: "image",
+          variant: "two-thirds",
+          src: "/images/project-pages/projects/enleve/enleve-4.webp",
+          alt: "Diagram explaining sensory receptors affected by chemo-induced peripheral neuropathy",
+        },
+      ],
+    },
+  },
+  {
+    collection: "projects",
     slug: "playgrounds",
     title: "Playgrounds",
     description: "Book Design",
-    cardColour: "#5B3982",
+    cardColour: "#462669",
     imageSrc: "/images/previews/projects/playgrounds-hero.webp",
     imageAlt: "Playgrounds preview",
     linkLabel: "Open project page",
@@ -118,31 +205,70 @@ const projectEntries: ProjectPage[] = [
           body: "Inspired by the ideology of Dutch architect Aldo van Eyck, whose post-war playground structures still remain sprinkled throughout the streets of Holland, I wanted to draw a connection between those places to play and the environment we experienced as the first pre-master students of Design Academy Eindhoven.",
         },
         {
-          id: "research-images",
           type: "image",
           variant: "full",
-          images: [
-            { src: "/images/project-pages/projects/playgrounds/playgrounds-2.webp", alt: "Playground structure in a city square" },
-            { src: "/images/project-pages/projects/playgrounds/playgrounds-3.webp", alt: "Circular playground climbing structure" },
-            { src: "/images/project-pages/projects/playgrounds/playgrounds-4.webp", alt: "Children playing on circular stepping forms" },
-          ],
+          src: "/images/project-pages/projects/playgrounds/playgrounds-1.webp",
+          alt: "Black and white archival photos of playground structures and children playing",
         },
         {
           id: "reflection",
           type: "paragraph",
-          variant: "indented",
-          body: "My own journey, reflected in those of many classmates, involved navigating through a landscape of uncertainties and doubts, as well as unlearning the perfectionistic tendencies and self-imposed limitations that kept us back. It was only through light-hearted experimentation and play that the shape of our projects began to surface. This publication was a chance to capture and honour that shared process.",
+          body: "My own journey, reflected in those of many classmates, involved navigating through a landscape of uncertainties and doubts, as well as unlearning the perfectionistic tendencies and self-imposed limitations that kept us back. It was only through light-hearted experimentation and play that the shape of our projects began to surface and this idea became the starting point of the book .",
         },
         {
           id: "process-heading",
           type: "section-heading",
+          variant: "indented",
           text: "Process",
         },
         {
           id: "process-text",
           type: "paragraph",
+          variant: "indented",
           body: "Juliët and I set out to capture this shared experience by creating a yearbook that would document the cohort’s projects. We collected photos, written documentation, quotes, and tributes that were a representation of the work that had been achieved to date and the environment that shaped it.",
         },
+        {
+          type: "image",
+          variant: "indented",
+          src: "/images/project-pages/projects/playgrounds/playgrounds-2.webp",
+        },
+        {
+          id: "outcome-heading",
+          type: "section-heading",
+          text: "Outcome",
+        },
+        {
+          type: "image",
+          variant: "full",
+          src: "/images/project-pages/projects/playgrounds/playgrounds-7.webp",
+          alt: "Playgrounds outcome image",
+        },
+        {
+          type: "paragraph",
+          body: "The Playgrounds Yearbook is a collection of all the projects completed by the students of the pre-master class of 2023-2024, along with photos, quotes, and tributes to our tutors. Printed and bound by hand, it was distributed to all students and tutors as a keepsake.",
+        },
+        {
+          type: "image",
+          variant: "full",
+          images: [
+            { src: "/images/project-pages/projects/playgrounds/playgrounds-3.webp", alt: "Playgrounds yearbook spread" },
+            { src: "/images/project-pages/projects/playgrounds/playgrounds-5.webp", alt: "Playgrounds yearbook spread" },
+          ],
+        },
+        {
+          type: "image",
+          variant: "full",
+          src: "/images/project-pages/projects/playgrounds/playgrounds-6.webp",
+          alt: "Playgrounds yearbook spread",
+        },
+        {
+          type: "paragraph",
+          body: "It also created an opportunity for students to sign one another’s books with parting messages and sentiments at the conclusion of the year.",
+        },
+        {
+          type: "image",
+          variant: "indented",
+          src: "/images/project-pages/projects/playgrounds/playgrounds-8.webp",        },
       ],
     },
   },
@@ -180,47 +306,12 @@ const projectEntries: ProjectPage[] = [
   },
   {
     collection: "projects",
-    slug: "enlève",
-    title: "Enleve",
-    description: "Product Engineering",
-    cardColour: "#EBE649",
-    cardTextColour: "dark",
-    imageSrc: "/images/previews/projects/enleve-hero.webp",
-    imageAlt: "Enleve preview",
-    linkLabel: "Open project page",
-    page: {
-      cards: [
-        {
-          id: "overview",
-          title: "Overview",
-          body: paragraphs(),
-          imageSrc: "/images/previews/projects/enleve-hero.webp",
-          imageAlt: "Enleve preview",
-        },
-        { id: "approach", title: "Approach", body: paragraphs(), images: [] },
-        { id: "outcome", title: "Outcome", body: paragraphs(), images: [] },
-        { id: "links", title: "Links", body: paragraphs() },
-      ],
-    },
-  },
-  {
-    collection: "projects",
     slug: "huaweimagic",
     title: "HuaweiMagic",
     description: "Interface Concept",
-    cardColour: defaultCardColour,
+    cardColour: "#171718",
     imageSrc: "/images/previews/projects/huaweimagic-hero.webp",
     imageAlt: "HuaweiMagic preview",
-    linkLabel: "Open project page",
-  },
-  {
-    collection: "projects",
-    slug: "cariad",
-    title: "CARIAD Future of Mobility",
-    description: "UX Strategy",
-    cardColour: defaultCardColour,
-    imageSrc: "/images/previews/projects/cariad-hero.webp",
-    imageAlt: "CARIAD preview",
     linkLabel: "Open project page",
   },
   {
@@ -228,7 +319,7 @@ const projectEntries: ProjectPage[] = [
     slug: "from-now-to-now",
     title: "From Now To Now",
     description: "Photo Installation",
-    cardColour: defaultCardColour,
+    cardColour: "#20415E",
     imageSrc: "/images/previews/projects/fromnowtonow-hero.webp",
     imageAlt: "From now to now preview",
     linkLabel: "Open project page",
@@ -302,10 +393,20 @@ const projectEntries: ProjectPage[] = [
   },
   {
     collection: "projects",
+    slug: "cariad",
+    title: "CARIAD Future of Mobility",
+    description: "UX Strategy",
+    cardColour: "#186932",
+    imageSrc: "/images/previews/projects/cariad-hero.webp",
+    imageAlt: "CARIAD preview",
+    linkLabel: "Open project page",
+  },
+  {
+    collection: "projects",
     slug: "slingshot",
     title: "Slingshot AI",
     description: "Branding",
-    cardColour: defaultCardColour,
+    cardColour: "#CE0309",
     imageSrc: "/images/previews/projects/slingshot-hero.webp",
     imageAlt: "Slingshot preview",
     linkLabel: "Open project page",
@@ -315,7 +416,7 @@ const projectEntries: ProjectPage[] = [
     slug: "onsemble",
     title: "Onsemble Home",
     description: "Branding",
-    cardColour: defaultCardColour,
+    cardColour: "#B8C83D",
     imageSrc: "/images/previews/projects/onsemble-hero.webp",
     imageAlt: "Onsemble preview",
     linkLabel: "Open project page",
@@ -325,19 +426,20 @@ const projectEntries: ProjectPage[] = [
     slug: "thebraincolouringbook",
     title: "The Brain Colouring Book",
     description: "Website",
-    cardColour: defaultCardColour,
+    cardColour: "#134E5A",
     imageSrc: "/images/previews/projects/tbcb-hero.webp",
     imageAlt: "The Brain Colouring Book",
     linkLabel: "Open project page",
   },
   {
     collection: "projects",
-    slug: "nuro",
-    title: "Nuro",
+    slug: "emgeyboard",
+    title: "EMGeyboard",
     description: "Neurotechnology Interface",
-    cardColour: defaultCardColour,
+    cardColour: "#F4B7EF",
+    cardTextColour: "dark",
     imageSrc: "/images/previews/projects/nuro-hero.webp",
-    imageAlt: "Nuro preview",
+    imageAlt: "EMGeyboard preview",
     linkLabel: "Open project page",
   },
 ];

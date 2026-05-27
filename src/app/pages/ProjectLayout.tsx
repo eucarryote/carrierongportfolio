@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import { Link } from "react-router";
 import PageTemplate from "@/app/components/PageTemplate";
 import { routes } from "@/content/site";
@@ -31,11 +31,6 @@ export function MissingDetailPage({ label }: { label: string }) {
       </p>
     </div>
   );
-}
-
-function cardColourClass(cardColour?: string): string {
-  if (!cardColour) return "";
-  return `card-colour-${cardColour.replace("#", "").toLowerCase()}`;
 }
 
 function getCardImages(card?: TemplateCard, keyPrefix = "card"): SectionImage[] {
@@ -109,6 +104,7 @@ function ProjectText({ text }: { text: string }) {
 
 function getProjectImageClass(variant: Extract<ProjectContentBlock, { type: "image" }>["variant"]): string {
   if (variant === "two-thirds") return "project-image-block project-image-two-thirds";
+  if (variant === "half") return "project-image-block project-image-half";
   if (variant === "indented") return "project-image-block project-image-indented";
   return "project-image-block project-image-full";
 }
@@ -122,10 +118,13 @@ function ProjectContentBlocks({
 }) {
   return (
     <div className="project-blocks">
-      {blocks.map((block) => {
+      {blocks.map((block, blockIndex) => {
+        const blockKey = block.id ?? `${block.type}-${blockIndex}`;
+        const blockAnchor = block.id ? { id: block.id } : {};
+
         if (block.type === "specs") {
           return (
-            <div className="project-specs" id={block.id} key={block.id}>
+            <div className="project-specs" key={blockKey} {...blockAnchor}>
               {block.items.map((item) => (
                 <p key={item}>{item}</p>
               ))}
@@ -135,7 +134,7 @@ function ProjectContentBlocks({
 
         if (block.type === "quote") {
           return (
-            <div className="project-quote" id={block.id} key={block.id}>
+            <div className="project-quote" key={blockKey} {...blockAnchor}>
               <ProjectText text={block.text} />
             </div>
           );
@@ -145,17 +144,33 @@ function ProjectContentBlocks({
           return (
             <div
               className={`project-paragraph ${block.variant === "indented" ? "project-paragraph-indented" : "project-paragraph-default"}`}
-              id={block.id}
-              key={block.id}
+              key={blockKey}
+              {...blockAnchor}
             >
               <ProjectText text={block.body} />
             </div>
           );
         }
 
+        if (block.type === "paragraph-heading") {
+          return (
+            <h3
+              className={`project-paragraph-heading ${block.variant === "indented" ? "project-paragraph-indented" : "project-paragraph-default"}`}
+              key={blockKey}
+              {...blockAnchor}
+            >
+              {block.text}
+            </h3>
+          );
+        }
+
         if (block.type === "section-heading") {
           return (
-            <div className="project-section-heading" id={block.id} key={block.id}>
+            <div
+              className={`project-section-heading ${block.variant === "indented" ? "project-paragraph-indented" : "project-paragraph-default"}`}
+              key={blockKey}
+              {...blockAnchor}
+            >
               {block.text}
             </div>
           );
@@ -165,10 +180,10 @@ function ProjectContentBlocks({
         if (images.length === 0) return null;
 
         return (
-          <div className={getProjectImageClass(block.variant)} id={block.id} key={block.id}>
+          <div className={getProjectImageClass(block.variant)} key={blockKey} {...blockAnchor}>
             {images.map((image, index) => {
               const sectionImage = {
-                key: `${block.id}-${index}`,
+                key: `${blockKey}-${index}`,
                 src: image.src,
                 alt: image.alt ?? block.alt ?? "",
               };
@@ -191,6 +206,11 @@ function ProjectContentBlocks({
       })}
     </div>
   );
+}
+
+function cardStyle(cardColour?: string): CSSProperties | undefined {
+  if (!cardColour) return undefined;
+  return { "--card-colour": cardColour } as CSSProperties;
 }
 
 export default function ProjectLayout({
@@ -250,7 +270,7 @@ export default function ProjectLayout({
           }}
         />
       ) : cardColour ? (
-        <div className={`project-media hero project-colour-block ${cardColourClass(cardColour)}`} aria-label={`${projectSlug} colour block`} />
+        <div className="project-media hero project-colour-block" style={cardStyle(cardColour)} aria-label={`${projectSlug} colour block`} />
       ) : null}
 
       {contentBlocks?.length ? (
