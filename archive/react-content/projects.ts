@@ -282,6 +282,21 @@ const projectEntries: ProjectPage[] = [
     imageAlt: "Plastic poncho preview",
     linkLabel: "Open project page",
     page: {
+      blocks: [
+        {
+          type: "specs",
+          items: ["2025", "1 month", "Solo project"],
+        },
+        {
+          id: "intro-quote",
+          type: "quote",
+          text: "How can fashion be used to reframe our societal relationship to disposable plastic?",
+        },
+        {
+          type: "paragraph",
+          body: "A single-use shopping bag is used for an average of twelve minutes before being discarded. This habit of disposability constitutes a problematic attitude towards a material that survives for around 5000 years after our lifetime.",
+        },
+      ],
       cards: [
         {
           id: "overview",

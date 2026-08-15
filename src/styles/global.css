@@ -1,0 +1,397 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --sidebar-width: 300px;
+  --header-height: 100px;
+  --layout-panel-padding-y: 12px;
+  --layout-panel-padding-x: 20px;
+  --layout-edge-padding: 20px;
+  --layout-header-gap: 12px;
+  --layout-cards-gap: 12px;
+  --layout-nav-gap: 0;
+  --layout-section-title-size: 32px;
+  --layout-section-title-size-mobile: 30px;
+  --layout-nav-size: 32px;
+  --layout-nav-size-mobile: var(--layout-section-title-size-mobile);
+  --font-size-h2: var(--layout-section-title-size);
+  --font-size-grid-title: 24px;
+  --font-size-grid-copy: var(--font-size-grid-title);
+  --font-size-prose: 32px;
+  --font-size-copyright: 24px;
+  --card-colour: #000000;
+  --card-text-colour: #ffffff;
+  --card-hover-text-colour: #ffffff;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: white;
+  color: #382202;
+  font-family: "Rand Medium Trial", system-ui, -apple-system, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:focus-visible {
+  outline: 2px solid #382202;
+  outline-offset: 2px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+}
+
+p {
+  margin: 0;
+}
+
+.page-grid {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  grid-template-rows: var(--header-height) minmax(0, 1fr);
+  grid-template-areas:
+    "home horizontal-nav"
+    "vertical-nav main-content";
+}
+
+.home {
+  grid-area: home;
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  align-self: start;
+  padding: var(--layout-panel-padding-y) var(--layout-panel-padding-x) 0 var(--layout-edge-padding);
+  background: white;
+}
+
+.home a {
+  display: block;
+  font-family: "Rand Bold Trial", system-ui, -apple-system, sans-serif;
+  font-size: var(--layout-section-title-size);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.horizontal-nav {
+  grid-area: horizontal-nav;
+  padding: var(--layout-panel-padding-y) var(--layout-edge-padding) 0 var(--layout-panel-padding-x);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--layout-header-gap);
+  background: white;
+  align-self: start;
+}
+
+.horizontal-nav a {
+  font-family: "Rand Bold Trial", system-ui, -apple-system, sans-serif;
+  font-size: var(--font-size-h2);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin: 0;
+  line-height: 1;
+}
+
+.vertical-nav {
+  grid-area: vertical-nav;
+  position: sticky;
+  top: var(--header-height);
+  align-self: start;
+  height: max-content;
+  padding: 0 var(--layout-edge-padding);
+  display: flex;
+  flex-direction: column;
+  gap: var(--layout-nav-gap);
+}
+
+.vertical-nav a {
+  font-family: "Rand Bold Trial", system-ui, -apple-system, sans-serif;
+  font-size: var(--layout-nav-size);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.main-content {
+  grid-area: main-content;
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--layout-edge-padding) 0 var(--layout-panel-padding-x);
+  min-width: 0;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--layout-cards-gap);
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .page-grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto minmax(0, 1fr);
+    grid-template-areas:
+      "home"
+      "horizontal-nav"
+      "vertical-nav"
+      "main-content";
+  }
+
+  .home {
+    position: static;
+    padding-bottom: 40px;
+  }
+
+  .horizontal-nav {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 0;
+    padding: var(--layout-panel-padding-y) var(--layout-edge-padding);
+  }
+
+  .vertical-nav {
+    position: static;
+    padding: 0 var(--layout-edge-padding) 20px var(--layout-edge-padding);
+    flex-direction: column;
+  }
+
+  .main-content {
+    padding: 12px var(--layout-edge-padding);
+  }
+
+  .project-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  :root {
+    --layout-section-title-size: 30px;
+    --layout-nav-size: 30px;
+    --font-size-h2: var(--layout-section-title-size);
+    --font-size-grid-title: 20px;
+    --font-size-prose: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --font-size-grid-title: 20px;
+    --font-size-prose: 24px;
+  }
+}
+
+@media (max-width: 425px) {
+  :root {
+    --layout-section-title-size-mobile: 30px;
+    --font-size-grid-title: 20px;
+    --font-size-prose: 20px;
+    --font-size-copyright: 20px;
+  }
+}
+
+.project-card {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+    background-color: #000;
+}
+
+.project-card a {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-card-image {
+  position: relative;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border-radius: 2px;
+  background: var(--card-colour);
+}
+
+.project-card-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-card-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  border-radius: 2px;
+  background: var(--card-colour);
+  opacity: 0.2;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.project-card:hover .project-card-overlay {
+  opacity: 0.95;
+}
+
+.project-card-content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 20;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #000;
+}
+
+.project-card:hover .project-card-content {
+  color: var(--card-hover-text-colour);
+}
+
+.project-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.project-card-title {
+  font-family: "Rand Bold Trial", system-ui, -apple-system, sans-serif;
+  font-size: var(--font-size-grid-title);
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.project-card-year {
+  font-family: "Times New Roman", serif;
+  font-size: 20px;
+  line-height: 1.2;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.project-card-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.project-card-description {
+  font-family: "Times New Roman", serif;
+  font-size: var(--font-size-grid-copy);
+  line-height: 1.3;
+  margin: 0;
+}
+
+.project-card-indicator {
+  font-family: "Times New Roman", serif;
+  font-size: var(--font-size-grid-copy);
+  line-height: 1.3;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.card-text-light {
+  --card-hover-text-colour: #ffffff;
+}
+
+.card-text-dark {
+  --card-hover-text-colour: #382202;
+}
+
+.project-detail {
+  max-width: min(66.6667%, 70ch);
+  font-family: "Times New Roman", serif;
+  font-size: var(--font-size-prose);
+  line-height: 1.35;
+}
+
+.project-detail h1 {
+  font-family: "Rand Bold Trial", system-ui, -apple-system, sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  line-height: 1.15;
+}
+
+.project-detail h2 {
+  font-family: "Rand Bold Trial", system-ui, -apple-system, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+
+.project-detail p {
+  margin-bottom: 1.5rem;
+}
+
+.project-detail p:last-child {
+  margin-bottom: 0;
+}
+
+.project-back {
+  margin-top: auto;
+  padding-top: 40px;
+}
+
+.project-back a {
+  font-family: "Rand Bold Trial", system-ui, -apple-system, sans-serif;
+  font-size: var(--layout-nav-size);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+}
+
+@media (max-width: 900px) {
+  .project-detail {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 425px) {
+  .project-detail {
+    font-size: 20px;
+  }
+
+  .project-detail h1 {
+    font-size: 30px;
+  }
+
+  .project-detail h2 {
+    font-size: 24px;
+  }
+}
