@@ -2,15 +2,19 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
-<BaseLayout title="Carrie Rong — About" description="About">
+<BaseLayout title="Carrie Rong" description="About">
+  <h1 class="sr-only">About</h1>
   <div class="about-content">
-    <h1 style="font-family: 'Rand Bold Trial', system-ui, -apple-system, sans-serif; font-weight: 700; font-size: 32px; letter-spacing: -0.5px; line-height: 1; margin-bottom: 60px;">
-      Section heading
-    </h1>
-    <div style="font-family: 'Times New Roman', serif; font-size: 32px; line-height: 1.35; max-width: min(66.6667%, 70ch);">
-      <p style="margin-bottom: 1.5rem;">
-        Introductory text
+    <div class="about-body-text">
+      <p>
+        Carrie Rong (b. 1999) is a transdisciplinary designer and creator. Her work crosses the terrain of health, physiology, technology, art, science, and self inquiry. Design is how she stays in conversation with the world: a way of being that celebrates process, beauty, collaboration, and making it up as you go along.
       </p>
+      <p>
+        She is Canadian-Chinese and a product of many stories. Previously she has worked at Edenspiekermann Berlin (2022), studied at Design Academy Eindhoven (2023), and contributed to research and exhibition work at the Future Spaces Vision Lab in Shenzhen (2025). She is currently pursuing a double Master's in Innovation Design Engineering at the Royal College of Art and Imperial College London (graduating 2027).
+      </p>
+      <figure class="about-image">
+        <img src="/images/about.webp" alt="Portrait of Carrie Rong" loading="lazy" />
+      </figure>
     </div>
   </div>
 </BaseLayout>

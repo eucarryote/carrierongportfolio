@@ -2,15 +2,22 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
-<BaseLayout title="Carrie Rong — Contact" description="Contact">
+<BaseLayout title="Carrie Rong" description="Contact">
   <div class="contact-content">
-    <h1 style="font-family: 'Rand Bold Trial', system-ui, -apple-system, sans-serif; font-weight: 700; font-size: 32px; letter-spacing: -0.5px; line-height: 1; margin-bottom: 60px;">
-      Section heading
-    </h1>
-    <div style="font-family: 'Times New Roman', serif; font-size: 32px; line-height: 1.35; max-width: min(66.6667%, 70ch);">
-      <p>
-        Introductory text
-      </p>
-    </div>
+    <h1 class="sr-only">Contact</h1>
+    <section class="contact-section">
+      <h2>Email</h2>
+      <a href="mailto:carrierong37@gmail.com">carrierong37@gmail.com</a>
+    </section>
+
+    <section class="contact-section">
+      <h2>Elsewhere</h2>
+      <p>Instagram: <a href="https://instagram.com/eucarryote">eucarryote</a></p>
+      <p>Instagram: <a href="https://instagram.com/eucarryart">eucarryart</a></p>
+      <p>Instagram: <a href="https://instagram.com/eucarryphoto">eucarryphoto</a></p>
+      <p>LinkedIn: <a href="https://www.linkedin.com/in/carrierong/">carrierong</a></p>
+      <p>Are.na: <a href="https://www.are.na/carrie-rong">carrie-rong</a></p>
+      <p>Spotify: <a href="https://open.spotify.com/user/31buetqui4rxmilex33dkjs2j6dq?si=9bca593ad1634ae5">carrierong</a></p>
+    </section>
   </div>
 </BaseLayout>

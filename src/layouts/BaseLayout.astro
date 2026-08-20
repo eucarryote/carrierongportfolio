@@ -1,13 +1,21 @@
 ---
 import "@/styles/fonts.css";
 import "@/styles/global.css";
+import { ViewTransitions } from "astro:transitions";
 
 interface Props {
   title?: string;
   description?: string;
+  isProject?: boolean;
+  projectTitle?: string;
 }
 
-const { title = "Carrie Rong", description = "" } = Astro.props;
+const {
+  title = "Carrie Rong",
+  description = "",
+  isProject = false,
+  projectTitle = title,
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -15,31 +23,116 @@ const { title = "Carrie Rong", description = "" } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <title>Carrie Rong</title>
     {description && <meta name="description" content={description} />}
-    <meta property="og:title" content={title} />
+    <meta property="og:title" content="Carrie Rong" />
     {description && <meta property="og:description" content={description} />}
+    <ViewTransitions />
   </head>
   <body>
-    <div class="page-grid">
-      <header class="home">
-        <a href="/index.html">Carrie Rong</a>
+    <div class:list={["page-grid", { "project-page-grid": isProject }]}>
+      <header class="home" transition:persist="site-home">
+        <a href="/work.html" data-project-close>Carrie Rong</a>
       </header>
 
-      <nav class="horizontal-nav">
-        <a href="/about.html">About</a>
-        <a href="/cv/Resume-Carrie-Rong.pdf">CV</a>
-      </nav>
-
-      <nav class="vertical-nav">
-        <a href="/index.html">Design</a>
-        <a href="/art.html">Art</a>
+      <nav class="vertical-nav" transition:persist="site-side-nav">
+        <a href="/work.html">Work</a>
+        <a href="/play.html">Play</a>
         <a href="/contact.html">Contact</a>
       </nav>
 
-      <main class="main-content">
-        <slot />
-      </main>
+      {isProject ? (
+        <>
+          <section class="project-panel" transition:name="project-panel">
+            <nav class="horizontal-nav project-topbar" aria-label="Project controls">
+              <h1>{projectTitle}</h1>
+              <a href="/work.html" data-project-close>Close</a>
+            </nav>
+            <main class="main-content">
+              <slot />
+            </main>
+          </section>
+        </>
+      ) : (
+        <>
+        <nav class="horizontal-nav">
+          <a href="/about.html">About</a>
+          <a href="/cv/Resume-Carrie-Rong.pdf">CV</a>
+        </nav>
+        <main class="main-content">
+          <slot />
+        </main>
+        </>
+      )}
     </div>
+    <script>
+      let scrollLockTimeout: number | undefined;
+      const scrollKeys = new Set([
+        "ArrowDown",
+        "ArrowUp",
+        "PageDown",
+        "PageUp",
+        "Home",
+        "End",
+        " ",
+      ]);
+
+      const beginScrollLock = () => {
+        document.documentElement.classList.add("is-page-transitioning");
+        window.clearTimeout(scrollLockTimeout);
+      };
+
+      const releaseScrollLockAfterTransition = () => {
+        beginScrollLock();
+        scrollLockTimeout = window.setTimeout(() => {
+          document.documentElement.classList.remove("is-page-transitioning");
+        }, 800);
+      };
+
+      window.addEventListener(
+        "wheel",
+        (event) => {
+          if (document.documentElement.classList.contains("is-page-transitioning")) {
+            event.preventDefault();
+          }
+        },
+        { passive: false },
+      );
+
+      window.addEventListener(
+        "touchmove",
+        (event) => {
+          if (document.documentElement.classList.contains("is-page-transitioning")) {
+            event.preventDefault();
+          }
+        },
+        { passive: false },
+      );
+
+      window.addEventListener("keydown", (event) => {
+        if (
+          document.documentElement.classList.contains("is-page-transitioning") &&
+          scrollKeys.has(event.key)
+        ) {
+          event.preventDefault();
+        }
+      });
+
+      document.addEventListener("astro:before-preparation", (event) => {
+        beginScrollLock();
+
+        if (
+          event.sourceElement?.closest("[data-project-close]") ||
+          document.querySelector(".project-page-grid") && event.sourceElement?.closest(".vertical-nav a")
+        ) {
+          event.direction = "back";
+        }
+      });
+
+      document.addEventListener("astro:after-swap", () => {
+        releaseScrollLockAfterTransition();
+      });
+    </script>
   </body>
 </html>

@@ -1,19 +1,47 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import ProjectGallery from "@/components/ProjectGallery.astro";
+
+interface GalleryImage {
+  src: string;
+  alt?: string;
+}
+
+interface GalleryRow {
+  layout: "full" | "two-even" | "two-wide-left" | "two-wide-right" | "three-even";
+  images: GalleryImage[];
+}
 
 interface Props {
   title: string;
   description?: string;
+  place?: string;
+  year?: string;
+  heroImage?: string;
+  heroAlt?: string;
+  gallery?: GalleryRow[];
 }
 
-const { title, description } = Astro.props;
+const { title, description, place, year, heroImage, heroAlt, gallery } = Astro.props;
+const placeAndYear = [place, year].filter(Boolean).join(", ");
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} isProject projectTitle={title}>
+  {heroImage && (
+    <figure class="project-hero">
+      <img src={heroImage} alt={heroAlt || ""} />
+    </figure>
+  )}
+  <ProjectGallery gallery={gallery} />
+  {(description || placeAndYear) && (
+    <section class="project-info">
+      <p>
+        {description && <span>{description}</span>}
+        {placeAndYear && <span>{placeAndYear}</span>}
+      </p>
+    </section>
+  )}
   <article class="project-detail">
     <slot />
   </article>
-  <div class="project-back">
-    <a href="/index.html">← Back to Design</a>
-  </div>
 </BaseLayout>

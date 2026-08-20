@@ -7,7 +7,8 @@ interface Props {
   image?: string;
   imageAlt?: string;
   cardColour?: string;
-  cardTextColour?: "dark" | "light";
+  cardTextColour?: string;
+  cardHoverTextColour?: string;
 }
 
 const { 
@@ -18,31 +19,36 @@ const {
   image, 
   imageAlt, 
   cardColour = "#000000",
-  cardTextColour = "light"
+  cardTextColour = "#000000",
+  cardHoverTextColour = cardTextColour,
 } = Astro.props;
-
-const textClass = cardTextColour === "dark" ? "card-text-dark" : "card-text-light";
 ---
 
 <div 
-  class={`project-card ${textClass}`}
-  style={cardColour ? { "--card-colour": cardColour } : {}}
+  class="project-card"
+  style={{
+    "--card-colour": cardColour,
+    "--card-text-colour": cardTextColour,
+    "--card-hover-text-colour": cardHoverTextColour,
+  }}
 >
   <a href={href}>
     {image && (
       <div class="project-card-image">
-        <img src={image} alt={imageAlt || title} loading="lazy" />
+        <img src={image} alt={imageAlt || ""} loading="lazy" />
       </div>
     )}
     {!image && <div class="project-card-image"></div>}
     <div class="project-card-overlay" aria-hidden="true"></div>
     <div class="project-card-content">
       <div class="project-card-head">
-        <h3 class="project-card-title">{title}</h3>
+        <div class="project-card-title-group">
+          <h3 class="project-card-title">{title}</h3>
+          {description && <p class="project-card-description">{description}</p>}
+        </div>
         {year && <span class="project-card-year">{year}</span>}
       </div>
       <div class="project-card-foot">
-        {description && <p class="project-card-description">{description}</p>}
         <div class="project-card-indicator">→</div>
       </div>
     </div>

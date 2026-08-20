@@ -1,0 +1,31 @@
+---
+interface GalleryImage {
+  src: string;
+  alt?: string;
+}
+
+interface GalleryRow {
+  layout: "full" | "two-even" | "two-wide-left" | "two-wide-right" | "three-even";
+  images: GalleryImage[];
+}
+
+interface Props {
+  gallery?: GalleryRow[];
+}
+
+const { gallery = [] } = Astro.props;
+---
+
+{gallery.length > 0 && (
+  <section class="project-gallery" aria-label="Project gallery">
+    {gallery.map((row) => (
+      <div class={`project-gallery-row project-gallery-row--${row.layout}`}>
+        {row.images.map((image) => (
+          <figure class="project-gallery-item">
+            <img src={image.src} alt={image.alt || ""} loading="lazy" />
+          </figure>
+        ))}
+      </div>
+    ))}
+  </section>
+)}

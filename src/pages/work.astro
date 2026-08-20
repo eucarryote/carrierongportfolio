@@ -1,0 +1,36 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
+import { getCollection } from "astro:content";
+
+const projects = await getCollection("projects");
+
+const projectList = projects
+  .filter((project) => project.data.listed !== false && project.id.startsWith("work/"))
+  .sort((a, b) => (a.data.order ?? Number.MAX_SAFE_INTEGER) - (b.data.order ?? Number.MAX_SAFE_INTEGER))
+  .map((project) => ({
+    ...project.data,
+    href: project.data.href || `/work/${project.data.slug}.html`,
+  }));
+
+const title = "Carrie Rong";
+const description = "Selected work";
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="project-grid">
+    {projectList.map((item) => (
+      <ProjectCard
+        title={item.title}
+        year={item.year}
+        description={item.description}
+        href={item.href}
+        image={item.heroImage}
+        imageAlt={item.heroAlt}
+        cardColour={item.cardColour}
+        cardTextColour={item.cardTextColour}
+        cardHoverTextColour={item.cardHoverTextColour}
+      />
+    ))}
+  </div>
+</BaseLayout>
