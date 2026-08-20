@@ -33,11 +33,11 @@ const {
   <body>
     <div class:list={["page-grid", { "project-page-grid": isProject }]}>
       <header class="home" transition:persist="site-home">
-        <a href="/work.html" data-project-close>Carrie Rong</a>
+        <a href="/" data-project-close>Carrie Rong</a>
       </header>
 
       <nav class="vertical-nav" transition:persist="site-side-nav">
-        <a href="/work.html">Work</a>
+        <a href="/">Work</a>
         <a href="/play.html">Play</a>
         <a href="/contact.html">Contact</a>
       </nav>
@@ -47,7 +47,7 @@ const {
           <section class="project-panel" transition:name="project-panel">
             <nav class="horizontal-nav project-topbar" aria-label="Project controls">
               <h1>{projectTitle}</h1>
-              <a href="/work.html" data-project-close>Close</a>
+              <a href="/" data-project-close>Close</a>
             </nav>
             <main class="main-content">
               <slot />
